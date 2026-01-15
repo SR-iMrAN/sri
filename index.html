@@ -21,7 +21,7 @@
     <link rel="stylesheet" href="css/flaticon.css">
     <link rel="stylesheet" href="css/icomoon.css">
     <link rel="stylesheet" href="css/style.css">
-<link rel="icon" type="image/png" href="images/srilogo1.png">
+<link rel="icon" type="image/png" sizes="180x180" href="images/srilogo1.png">
 
 
 
@@ -110,6 +110,34 @@
   transform: scale(1.1);
 }
 
+/* Glowing letter-by-letter animation */
+#glowing-brand {
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+.glow-letter {
+  display: inline-block;
+  animation: letterGlow 3.5s ease-in-out infinite;
+  text-shadow: 0 0 10px rgba(255, 189, 57, 0.8);
+  color: #ffbd39;
+  position: relative;
+}
+
+@keyframes letterGlow {
+  0% {
+    text-shadow: 0 0 5px rgba(255, 189, 57, 0.3), 0 0 10px rgba(255, 189, 57, 0.1);
+    color: #ffffff;
+  }
+  50% {
+    text-shadow: 0 0 20px rgb(159, 255, 57), 0 0 30px rgba(255, 189, 57, 0.8);
+    color: #ffbd39;
+  }
+  100% {
+    text-shadow: 0 0 5px rgba(206, 255, 57, 0.3), 0 0 10px rgba(255, 189, 57, 0.1);
+    color: #ffffff;
+  }
+}
 
 </style>
 
@@ -120,7 +148,7 @@
 	  
     <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar ftco-navbar-light site-navbar-target" id="ftco-navbar">
 	    <div class="container">
-	      <a class="navbar-brand" href="index.html">Sifatur Rahman Imran</a>
+	      <a class="navbar-brand" id="glowing-brand" href="index.html">SR. iMRAN</a>
 	      <button class="navbar-toggler js-fh5co-nav-toggle fh5co-nav-toggle" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
 	        <span class="oi oi-menu"></span> Menu
 	      </button>
@@ -646,6 +674,28 @@
   <script src="js/scrollax.min.js"></script>
   
   <script src="js/main.js"></script>
+  
+  <script>
+    // Glowing letter-by-letter animation for navbar brand
+    document.addEventListener('DOMContentLoaded', function() {
+      const brandElement = document.getElementById('glowing-brand');
+      if (brandElement) {
+        const text = brandElement.textContent;
+        brandElement.textContent = ''; // Clear the original text
+        
+        // Wrap each letter in a span with staggered animation
+        let charIndex = 0;
+        for (let char of text) {
+          const span = document.createElement('span');
+          span.textContent = char;
+          span.className = 'glow-letter';
+          span.style.animationDelay = (charIndex * 0.25) + 's';
+          brandElement.appendChild(span);
+          charIndex++;
+        }
+      }
+    });
+  </script>
     
   </body>
 </html>
