@@ -1,701 +1,1019 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <title>Sifatur Rahman Imran | Frontend Developer</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    
-    <link href="https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900" rel="stylesheet">
+<html lang="en" id="html-root">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SR. iMRAN — Frontend Developer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css"/>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <style>
+    :root {
+      --gold:#d4a843; --gold-s:#d4a84322; --gold-b:#d4a84355;
+      --cyan:#38bdf8; --cyan-s:#38bdf811;
+      --bg:#06070a; --bg2:#0b0d11; --bg3:#0e1116;
+      --sf:#13161d; --sf2:#191d27;
+      --tx:#e8eaf0; --td:#7a8196; --tf:#2e3448;
+      --bd:#1e2230; --bdl:#2e3448;
+      --red:#e05252; --green:#52c97a;
+      --r:14px; --rl:22px;
+    }
+    html.light {
+      --bg:#f4f5f8; --bg2:#eceef3; --bg3:#e3e6ed;
+      --sf:#ffffff; --sf2:#f0f2f7;
+      --tx:#111827; --td:#6b7280;
+      --bd:#dde0e8; --bdl:#c8cdd8; --tf:#c0c4cc;
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--tx);overflow-x:hidden;transition:background .3s,color .3s}
+    ::selection{background:var(--gold);color:#000}
+    ::-webkit-scrollbar{width:3px}
+    ::-webkit-scrollbar-thumb{background:var(--gold)}
+    ::-webkit-scrollbar-track{background:var(--bg)}
 
-    <link rel="stylesheet" href="css/open-iconic-bootstrap.min.css">
-    <link rel="stylesheet" href="css/animate.css">
-    
-    <link rel="stylesheet" href="css/owl.carousel.min.css">
-    <link rel="stylesheet" href="css/owl.theme.default.min.css">
-    <link rel="stylesheet" href="css/magnific-popup.css">
+    /* CURSOR */
+    #cur,#cur-ring{position:fixed;border-radius:50%;pointer-events:none;z-index:99999;transform:translate(-50%,-50%)}
+    #cur{width:10px;height:10px;background:var(--gold);transition:transform .08s}
+    #cur-ring{width:34px;height:34px;border:1.5px solid var(--gold-b);transition:transform .18s cubic-bezier(.25,.46,.45,.94)}
 
-    <link rel="stylesheet" href="css/aos.css">
+    /* SCROLL BAR */
+    #sbar{position:fixed;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--gold),var(--cyan));transform-origin:left;transform:scaleX(0);z-index:1001}
 
-    <link rel="stylesheet" href="css/ionicons.min.css">
-    
-    <link rel="stylesheet" href="css/flaticon.css">
-    <link rel="stylesheet" href="css/icomoon.css">
-    <link rel="stylesheet" href="css/style.css">
-<link rel="icon" type="image/png" sizes="180x180" href="images/srilogo1.png">
+    /* THREE BG */
+    #bg-canvas{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;opacity:.18}
+    html.light #bg-canvas{opacity:.05}
 
+    /* LOADER */
+    #ldr{position:fixed;inset:0;background:var(--bg);z-index:99998;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.4rem;transition:opacity .5s,visibility .5s}
+    #ldr.gone{opacity:0;visibility:hidden}
+    .lbrand{font-family:'Syne',sans-serif;font-size:2rem;font-weight:800;letter-spacing:3px;color:var(--gold)}
+    .ldots{display:flex;gap:9px}
+    .ldot{width:9px;height:9px;border-radius:50%;background:var(--gold);animation:ldb 1.1s ease-in-out infinite}
+    .ldot:nth-child(2){animation-delay:.18s;background:var(--cyan)}
+    .ldot:nth-child(3){animation-delay:.36s;background:var(--td)}
+    @keyframes ldb{0%,100%{transform:translateY(0)}50%{transform:translateY(-16px)}}
+    .lbar{width:160px;height:2px;background:var(--sf2);border-radius:1px;overflow:hidden}
+    .lfill{height:100%;background:linear-gradient(90deg,var(--gold),var(--cyan));animation:lf 1.8s ease forwards}
+    @keyframes lf{to{width:100%}}
 
+    /* ═══ NAVBAR — TUBELIGHT STYLE ═══ */
+    nav#nav{position:fixed;top:0;left:0;right:0;z-index:1000;height:66px;display:flex;align-items:center;justify-content:space-between;padding:0 5%;background:rgba(6,7,10,.75);backdrop-filter:blur(18px);border-bottom:1px solid var(--bd);transition:background .3s}
+    html.light nav#nav{background:rgba(244,245,248,.85)}
+    nav#nav.sc{background:rgba(6,7,10,.95)}
+    html.light nav#nav.sc{background:rgba(244,245,248,.98)}
 
-<style>
+    .brand{font-family:'Syne',sans-serif;font-weight:800;font-size:1.35rem;letter-spacing:2px;text-decoration:none;color:var(--tx);user-select:none}
+    .bl{display:inline-block;animation:tube 4s ease-in-out infinite;color:var(--gold)}
+    .bl:nth-child(1){animation-delay:0s}.bl:nth-child(2){animation-delay:.2s}.bl:nth-child(3){animation-delay:.4s}.bl:nth-child(4){animation-delay:.6s}.bl:nth-child(5){animation-delay:.8s}.bl:nth-child(6){animation-delay:1s}.bl:nth-child(7){animation-delay:1.2s}.bl:nth-child(8){animation-delay:1.4s}
+    @keyframes tube{
+      0%,100%{color:var(--gold);text-shadow:0 0 8px var(--gold),0 0 20px var(--gold)44}
+      10%{color:#fff;text-shadow:0 0 16px #fff,0 0 40px var(--gold)}
+      12%{color:var(--gold);text-shadow:none}
+      14%{color:#fff;text-shadow:0 0 12px #fff}
+      20%,80%{color:var(--td);text-shadow:none}
+      85%{color:var(--gold);text-shadow:0 0 10px var(--gold)88}
+    }
 
-/*======================================
-//--//-->   ABOUT
-======================================*/
+    /* Tubelight pill nav */
+    .npill{display:flex;align-items:center;gap:3px;background:var(--sf);border:1px solid var(--bd);border-radius:100px;padding:5px;backdrop-filter:blur(12px)}
+    .npill a{
+      position:relative;text-decoration:none;padding:8px 20px;border-radius:100px;
+      font-size:.82rem;font-weight:600;letter-spacing:.4px;
+      color:var(--td);transition:color .25s;white-space:nowrap;overflow:visible;
+      display:flex;align-items:center;gap:7px;
+    }
+    .npill a:hover{color:var(--tx)}
 
-.about-mf .box-shadow-full {
-  padding-top: 4rem;
-  padding-bottom: 4rem;
-}
+    /* Active state — gold pill + tubelight glow on top */
+    .npill a.on{color:#000}
+    .npill a.on .pbg{display:block}
+    .pbg{
+      position:absolute;inset:0;border-radius:100px;
+      background:var(--gold);z-index:-1;display:none;
+    }
 
-.about-mf .about-img {
-  margin-bottom: 2rem;
-}
+    /* Tubelight beam above active pill */
+    .npill a.on::before{
+      content:'';
+      position:absolute;
+      top:-6px;left:50%;transform:translateX(-50%);
+      width:40%;height:2px;
+      border-radius:2px;
+      background:var(--gold);
+      box-shadow:0 0 10px var(--gold),0 0 25px var(--gold)88,0 0 40px var(--gold)44;
+    }
 
-.about-mf .about-img img {
-  margin-left: 10px;
-}
+    /* Soft radial glow spreading downward from beam */
+    .npill a.on::after{
+      content:'';
+      position:absolute;
+      top:-14px;left:50%;transform:translateX(-50%);
+      width:80px;height:18px;
+      background:radial-gradient(ellipse at center,var(--gold)44 0%,transparent 70%);
+      filter:blur(4px);
+      pointer-events:none;
+      border-radius:50%;
+    }
 
+    /* Nav right */
+    .nright{display:flex;align-items:center;gap:9px}
+    .tbtn{width:38px;height:38px;border-radius:10px;border:1px solid var(--bd);background:var(--sf);color:var(--tx);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:.95rem;transition:background .2s,border-color .2s,transform .2s}
+    .tbtn:hover{background:var(--sf2);border-color:var(--gold);transform:scale(1.05)}
+    .hbg{display:none;flex-direction:column;gap:5px;cursor:pointer;background:none;border:none;padding:5px}
+    .hbg span{display:block;width:22px;height:2px;background:var(--gold);border-radius:2px;transition:all .3s}
+    .mobn{display:none;position:fixed;inset:0;top:66px;background:rgba(6,7,10,.97);backdrop-filter:blur(20px);z-index:999;flex-direction:column;align-items:center;justify-content:center;gap:2.5rem}
+    html.light .mobn{background:rgba(244,245,248,.97)}
+    .mobn.open{display:flex}
+    .mobn a{text-decoration:none;color:var(--tx);font-family:'Syne',sans-serif;font-size:2rem;font-weight:700;transition:color .2s}
+    .mobn a:hover{color:var(--gold)}
 
-.skill-mf .progress {
-  /* background-color: #cde1f8; */
-  margin: .5rem 0 1.2rem 0;
-  border-radius: 0;
-  height: .7rem;
-}
+    /* SECTION */
+    section{position:relative;z-index:2}
+    .w{max-width:1180px;margin:0 auto;padding:100px 5%}
+    .chip{display:inline-flex;align-items:center;gap:8px;font-size:.72rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:1rem}
+    .chip::before{content:'';width:28px;height:1px;background:var(--gold)}
+    .stitle{font-family:'Syne',sans-serif;font-size:clamp(2rem,4vw,3.2rem);font-weight:800;line-height:1.1;margin-bottom:1.5rem;;}
+    .stitlea{font-family:'JetBrains Mono',sans-serif;font-size:clamp(6rem,4vw,3.2rem);font-weight:800;line-height:1.1;margin-bottom:1.5rem;;}
+    .stitle em{font-style:normal;color:var(--gold) ;  padding:0 4px;
+  display:inline-block;
+  line-height:1.2;}
+   .stitlea em{font-style:normal;color:var(--gold) ;  padding:0 4px;
+  display:inline-block;
+  line-height:1.2;}
+    .rv{opacity:0;transform:translateY(26px);transition:opacity .7s,transform .7s}
+    .rv.sh{opacity:1;transform:none}
 
-.skill-mf .progress .progress-bar {
-  height: .7rem;
-  background-color: #ffbd39;
-}
+    /* HERO */
+    #home{min-height:100vh;display:flex;align-items:center;padding:120px 5% 60px;position:relative;overflow:hidden}
+    .hgrid{max-width:1180px;margin:0 auto;width:100%;display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center}
+    .hchip{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--gold-b);color:var(--gold);padding:6px 16px;border-radius:100px;font-size:.75rem;letter-spacing:2px;text-transform:uppercase;font-weight:600;margin-bottom:1.5rem}
+    .hname{font-family:'Syne',sans-serif;font-size:clamp(2.3rem,4.2vw,3.8rem);font-weight:800;line-height:1.07;margin-bottom:.6rem}
+    .hname span{color:var(--gold)}
+    .htype{font-family:'JetBrains Mono',monospace;font-size:clamp(.9rem,1.6vw,1.2rem);color:var(--cyan);margin-bottom:1.5rem;min-height:2rem}
+    .caret{display:inline-block;width:2px;height:1em;background:var(--cyan);margin-left:2px;vertical-align:middle;animation:bk .8s infinite}
+    @keyframes bk{0%,100%{opacity:1}50%{opacity:0}}
+    .hdesc{color:var(--td);line-height:1.85;margin-bottom:2rem;font-size:1rem;max-width:460px}
+    .hbtns{display:flex;gap:.8rem;flex-wrap:wrap;margin-bottom:2.5rem}
+    .bgold{display:inline-flex;align-items:center;gap:7px;background:var(--gold);color:#000;padding:11px 26px;border-radius:var(--r);font-weight:700;font-size:.88rem;text-decoration:none;border:none;cursor:pointer;transition:transform .2s,box-shadow .2s}
+    .bgold:hover{transform:translateY(-2px);box-shadow:0 8px 28px var(--gold)44}
+    .bout{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--bdl);color:var(--tx);padding:11px 26px;border-radius:var(--r);font-weight:600;font-size:.88rem;text-decoration:none;cursor:pointer;background:var(--sf);transition:border-color .2s,transform .2s,color .2s}
+    .bout:hover{border-color:var(--gold);transform:translateY(-2px);color:var(--gold)}
+    .hstats{display:flex;gap:2.5rem}
+    .stn{font-family:'Syne',sans-serif;font-size:1.9rem;font-weight:800;color:var(--gold);line-height:1}
+    .stl{font-size:.72rem;letter-spacing:1px;text-transform:uppercase;color:var(--td)}
 
+    /* Hero visual */
+    .hvis{display:flex;align-items:center;justify-content:center;position:relative}
+    .porb{width:310px;height:310px;border-radius:30% 70% 60% 40% / 50% 40% 60% 50%;background:var(--sf);border:1.5px solid var(--bdl);display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative;animation:blob 9s ease-in-out infinite alternate;box-shadow:0 0 55px var(--gold-s)}
+    @keyframes blob{0%{border-radius:30% 70% 60% 40%/50% 40% 60% 50%}25%{border-radius:60% 40% 30% 70%/60% 30% 70% 40%}50%{border-radius:50% 50% 40% 60%/40% 60% 50% 50%}75%{border-radius:40% 60% 70% 30%/30% 70% 40% 60%}100%{border-radius:30% 70% 60% 40%/50% 40% 60% 50%}}
+    .porb img{width:100%;height:100%;object-fit:cover;filter:saturate(.9)}
+    .oring{position:absolute;border:1px dashed var(--gold-b);border-radius:50%;animation:spin 18s linear infinite}
+    .oring.r1{width:380px;height:380px}
+    .oring.r2{width:440px;height:440px;animation-direction:reverse;animation-duration:26s;border-style:dotted}
+    @keyframes spin{to{transform:rotate(360deg)}}
+    .ftag{position:absolute;background:var(--sf);border:1px solid var(--bdl);border-radius:10px;padding:7px 13px;font-size:.74rem;font-weight:600;color:var(--tx);animation:fy 3s ease-in-out infinite;display:flex;align-items:center;gap:6px;white-space:nowrap}
+    .ftag i{color:var(--gold)}
+    .ft1{top:8%;left:-8%;animation-delay:0s}
+    .ft2{bottom:18%;right:-10%;animation-delay:1.4s}
+    .ft3{bottom:3%;left:-4%;animation-delay:.7s}
+    @keyframes fy{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
 
-/* Animation styles */
-#typing-animation {
-  position: relative;
-  font-size: 30px;
-  font-weight: bold;
-  color: rgb(255, 255, 255);
-  overflow: hidden;
-  white-space: nowrap;
-  animation: typing 3s steps(20, end) infinite;
-}
+    /* Dot bg */
+    .dotbg{position:absolute;inset:0;z-index:0;pointer-events:none;background-image:radial-gradient(circle,var(--bd) 1px,transparent 1px);background-size:36px 36px;opacity:.4}
+    html.light .dotbg{opacity:.22}
 
-#typing-animation:before {
-  content: "";
-  /* position: absolute; */
-  top: 0;
-  left: 0;
-  width: 0;
-  height: 100%;
-  background-color: #ccc;
-  animation: typing-cursor 0.5s ease-in-out infinite;
-}
+    /* BEAM SECTION */
+    #beam{background:var(--bg2)}
+    .bwrap{position:relative;width:100%;max-width:680px;margin:3rem auto 0;height:330px;border:1px solid var(--bd);border-radius:var(--rl);background:var(--sf);overflow:hidden}
+    .bnode{position:absolute;width:54px;height:54px;border-radius:50%;background:var(--sf2);border:1.5px solid var(--bdl);display:flex;align-items:center;justify-content:center;font-size:1.35rem;color:var(--td);z-index:3}
+    .bnode.ctr{width:74px;height:74px;border-color:var(--gold);color:var(--gold);box-shadow:0 0 22px var(--gold-s)}
+    .bnode img{width:44px;height:44px;border-radius:50%;object-fit:cover}
+    .bnode.ctr img{width:60px;height:60px}
+    .bn-react{top:22px;left:55px}.bn-node{top:22px;right:55px}.bn-mongo{top:125px;left:18px}.bn-me{top:50%;left:50%;transform:translate(-50%,-50%)}.bn-git{top:125px;right:18px}.bn-js{bottom:28px;left:55px}.bn-py{bottom:28px;right:55px}
+    .bsvg{position:absolute;inset:0;width:100%;height:100%;z-index:2;pointer-events:none;overflow:visible}
 
-@keyframes typing {
-  from {
-    width: 0;
-  }
-  to {
-    width: 100%;
-  }
-}
+    /* 3D SCROLL */
+    #s3d{background:var(--bg)}
+    .s3out{height:600px;display:flex;align-items:center;justify-content:center;position:relative;perspective:1200px}
+    .s3card{width:min(680px,90%);background:var(--sf);border:1px solid var(--bdl);border-radius:24px;padding:2.5rem;box-shadow:0 0 0 1px var(--bd),0 20px 70px rgba(0,0,0,.5),0 80px 110px rgba(0,0,0,.3);transition:transform .12s linear}
+    .s3title{font-family:'Syne',sans-serif;font-size:clamp(1.5rem,2.8vw,2.2rem);font-weight:800;margin-bottom:.5rem}
+    .s3title em{font-style:normal;color:var(--gold)}
+    .s3sub{color:var(--td);font-size:.95rem;margin-bottom:1.8rem}
+    .s3img{width:100%;border-radius:14px;border:1px solid var(--bdl);aspect-ratio:16/7;object-fit:fill}
 
-@keyframes typing-cursor {
-  from {
-    width: 5px;
-  }
-  to {
-    width: 0;
-  }
-}
+    /* ABOUT */
+    #about{background:var(--bg3)}
+    .agrid{display:grid;grid-template-columns:1fr 1.35fr;gap:4rem;align-items:start}
+    .icard{background:var(--sf);border:1px solid var(--bd);border-radius:var(--rl);padding:1.6rem;position:relative;overflow:hidden}
+    .icard::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--gold),var(--cyan))}
+    .irow{display:flex;justify-content:space-between;align-items:flex-start;gap:.8rem;padding:.6rem 0;border-bottom:1px solid var(--bd)}
+    .irow:last-child{border-bottom:none}
+    .ik{color:var(--td);font-size:.8rem}
+    .iv{color:var(--tx);font-size:.84rem;font-weight:500;text-align:right}
+    .skwrap{margin-top:1.6rem}
+    .skh{font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;margin-bottom:1rem}
+    .sk{margin-bottom:1rem}
+    .skt{display:flex;justify-content:space-between;margin-bottom:5px}
+    .skn{font-size:.82rem;font-weight:600;display:flex;align-items:center;gap:7px}
+    .skn i{color:var(--gold);font-size:.82rem}
+    .skp{font-family:'JetBrains Mono',monospace;font-size:.74rem;color:var(--gold)}
+    .skb{height:5px;background:var(--sf2);border-radius:3px;overflow:hidden}
+    .skf{height:100%;border-radius:3px;background:linear-gradient(90deg,var(--gold),var(--cyan));transform:scaleX(0);transform-origin:left;transition:transform 1.1s cubic-bezier(.25,.46,.45,.94)}
+    .skf.on{transform:scaleX(1)}
+    .adesc{color:var(--td);line-height:1.85;font-size:1rem;margin-bottom:1.4rem}
+    .twrap{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:2rem}
+    .tg{padding:5px 13px;border-radius:100px;background:var(--sf2);border:1px solid var(--bdl);color:var(--td);font-size:.74rem;font-weight:600;display:inline-flex;align-items:center;gap:5px;transition:border-color .2s,color .2s}
+    .tg:hover{border-color:var(--gold);color:var(--gold)}
+    .tg i{font-size:.74rem;color:var(--gold)}
 
+    /* RESUME */
+    #resume{background:var(--bg2)}
+    .rtabs{display:flex;gap:0;background:var(--sf);border-radius:10px;padding:4px;width:fit-content;margin-bottom:2.5rem}
+    .rtab{padding:9px 22px;border-radius:8px;border:none;background:transparent;color:var(--td);font-weight:600;font-size:.83rem;cursor:pointer;transition:all .25s;display:flex;align-items:center;gap:7px}
+    .rtab.on{background:var(--gold);color:#000}
+    .tl{position:relative}
+    .tl::before{content:'';position:absolute;left:19px;top:0;bottom:0;width:1px;background:linear-gradient(to bottom,var(--gold),var(--cyan),transparent)}
+    .tli{display:flex;gap:2rem;margin-bottom:2.5rem;opacity:0;transform:translateX(-22px);transition:opacity .6s,transform .6s}
+    .tli.on{opacity:1;transform:none}
+    .tld{width:38px;height:38px;flex-shrink:0;border:1.5px solid var(--gold);border-radius:50%;background:var(--sf);display:flex;align-items:center;justify-content:center;color:var(--gold);font-size:.9rem;z-index:1;position:relative}
+    .tlc{flex:1;background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);padding:1.3rem 1.5rem;transition:border-color .3s,transform .3s;position:relative;overflow:hidden}
+    .tlc:hover{border-color:var(--gold);transform:translateX(4px)}
+    .tlc::before{content:'';position:absolute;left:0;top:0;bottom:0;width:2px;background:var(--gold);transform:scaleY(0);transform-origin:top;transition:transform .35s}
+    .tlc:hover::before{transform:scaleY(1)}
+    .tldate{font-family:'JetBrains Mono',monospace;font-size:.72rem;color:var(--gold);font-weight:600;letter-spacing:1.5px;margin-bottom:.3rem}
+    .tlttl{font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:700;margin-bottom:.2rem}
+    .tlsub{color:var(--td);font-size:.82rem;margin-bottom:.7rem}
+    .tlpts{list-style:none}
+    .tlpts li{color:var(--td);font-size:.83rem;padding:3px 0 3px 16px;position:relative;line-height:1.6}
+    .tlpts li::before{content:'›';position:absolute;left:0;color:var(--gold)}
+    .cvblock{margin-top:2.5rem;background:var(--sf);border:1px solid var(--bdl);border-radius:var(--rl);padding:1.8rem 2.2rem;display:flex;align-items:center;justify-content:space-between;gap:2rem}
+    .cvblock h3{font-family:'Syne',sans-serif;font-size:1.25rem;font-weight:700;margin-bottom:.3rem}
+    .cvblock p{color:var(--td);font-size:.87rem}
 
-/* project image zoom effect */
+    /* PROJECTS */
+    #projects{background:var(--bg)}
+    .pgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:1.6rem;margin-top:1.5rem}
+    .pc{background:var(--sf);border:1px solid var(--bd);border-radius:var(--rl);overflow:hidden;cursor:pointer;position:relative;opacity:0;transform:translateY(34px);transition:opacity .6s,transform .6s,border-color .3s,box-shadow .3s;transform-style:preserve-3d}
+    .pc.on{opacity:1;transform:translateY(0)}
+    .pc:hover{border-color:var(--gold);box-shadow:0 16px 50px var(--gold-s)}
+    .pthumb{height:175px;background:var(--sf2);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;font-size:3.2rem}
+    .ptglow{position:absolute;inset:0;opacity:0;transition:opacity .4s}
+    .pc:hover .ptglow{opacity:1}
+    .pbody{padding:1.3rem}
+    .plbl{font-size:.7rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:.35rem}
+    .pname{font-family:'Syne',sans-serif;font-size:1.05rem;font-weight:700;margin-bottom:.4rem}
+    .pdesc{color:var(--td);font-size:.82rem;line-height:1.7;margin-bottom:.85rem}
+    .pchips{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:.85rem}
+    .pch{font-size:.68rem;padding:3px 9px;background:var(--sf2);border:1px solid var(--bd);border-radius:100px;color:var(--td);font-weight:500}
+    .plinks{display:flex;gap:7px}
+    .plnk{display:inline-flex;align-items:center;gap:5px;font-size:.78rem;font-weight:600;text-decoration:none;color:var(--gold);padding:5px 12px;border:1px solid var(--gold-b);border-radius:8px;transition:all .2s}
+    .plnk:hover{background:var(--gold-s)}
+    .plnk.solid{background:var(--gold);color:#000;border-color:var(--gold)}
+    .plnk.solid:hover{opacity:.85}
 
-.zoom-effect {
-  overflow: hidden;
-  transition: transform 0.3s ease-out;
-}
+    /* COUNTERS */
+    #ctrs{border-top:1px solid var(--bd);border-bottom:1px solid var(--bd);background:var(--sf)}
+    .crow{max-width:1180px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);padding:55px 5%;gap:2rem}
+    .cb{text-align:center;position:relative}
+    .cb::after{content:'';position:absolute;right:0;top:20%;bottom:20%;width:1px;background:var(--bd)}
+    .cb:last-child::after{display:none}
+    .cn{font-family:'Syne',sans-serif;font-size:clamp(1.9rem,3.2vw,2.8rem);font-weight:800;color:var(--gold);line-height:1}
+    .cn sup{font-size:1.1rem;color:var(--cyan)}
+    .cl{color:var(--td);font-size:.77rem;letter-spacing:1px;text-transform:uppercase;margin-top:.4rem}
 
-.zoom-effect:hover {
-  transform: scale(1.1);
-}
+    /* CONTACT */
+    #contact{background:var(--bg3)}
+    .cgrid{display:grid;grid-template-columns:1fr 1.2fr;gap:4rem;align-items:start}
+    .cirow{display:flex;align-items:flex-start;gap:.9rem;margin-bottom:1.4rem}
+    .cico{width:44px;height:44px;flex-shrink:0;background:var(--gold-s);border:1px solid var(--gold-b);border-radius:11px;display:flex;align-items:center;justify-content:center;color:var(--gold);font-size:.95rem}
+    .cilbl{font-size:.74rem;letter-spacing:1px;text-transform:uppercase;color:var(--td)}
+    .cival{font-weight:600;font-size:.9rem;margin-top:2px}
+    .cival a{color:var(--tx);text-decoration:none;transition:color .2s}
+    .cival a:hover{color:var(--gold)}
+    .socs{display:flex;gap:9px;flex-wrap:wrap;margin-top:1.8rem}
 
-/* Glowing letter-by-letter animation */
-#glowing-brand {
-  font-weight: bold;
-  letter-spacing: 1px;
-}
+    /* ═══ SOCIAL ICONS — ORIGINAL BRAND COLORS ON HOVER ═══ */
+    .soc{width:44px;height:44px;border-radius:11px;border:1px solid var(--bd);background:var(--sf);display:flex;align-items:center;justify-content:center;text-decoration:none;color:var(--td);font-size:1rem;transition:all .25s}
+    .soc:hover{transform:translateY(-3px)}
+    .soc.s-li:hover{border-color:#0a66c2;color:#0a66c2;background:rgba(10,102,194,.08)}
+    .soc.s-gh:hover{border-color:#e6edf3;color:#e6edf3;background:rgba(230,237,243,.08)}
+    .soc.s-fb:hover{border-color:#1877f2;color:#1877f2;background:rgba(24,119,242,.08)}
+    .soc.s-ig:hover{border-color:#e1306c;color:#e1306c;background:rgba(225,48,108,.08)}
+    .soc.s-yt:hover{border-color:#ff0000;color:#ff0000;background:rgba(255,0,0,.08)}
+    .soc.s-tg:hover{border-color:#229ed9;color:#229ed9;background:rgba(34,158,217,.08)}
 
-.glow-letter {
-  display: inline-block;
-  animation: letterGlow 3.5s ease-in-out infinite;
-  text-shadow: 0 0 10px rgba(255, 189, 57, 0.8);
-  color: #ffbd39;
-  position: relative;
-}
+    .cform{background:var(--sf);border:1px solid var(--bd);border-radius:var(--rl);padding:2rem}
+    .cftitle{font-family:'Syne',sans-serif;font-size:1.2rem;font-weight:700;margin-bottom:1.3rem}
+    .fg{margin-bottom:1.2rem}
+    .fl{display:block;font-size:.74rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--td);margin-bottom:6px}
+    .fi{width:100%;background:var(--sf2);border:1px solid var(--bd);border-radius:10px;padding:12px 15px;color:var(--tx);font-family:inherit;font-size:.9rem;outline:none;resize:none;transition:border-color .2s,box-shadow .2s}
+    .fi:focus{border-color:var(--gold);box-shadow:0 0 0 3px var(--gold-s)}
+    .fi::placeholder{color:var(--tf)}
+    .fgrow{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
 
-@keyframes letterGlow {
-  0% {
-    text-shadow: 0 0 5px rgba(255, 189, 57, 0.3), 0 0 10px rgba(255, 189, 57, 0.1);
-    color: #ffffff;
-  }
-  50% {
-    text-shadow: 0 0 20px rgb(159, 255, 57), 0 0 30px rgba(255, 189, 57, 0.8);
-    color: #ffbd39;
-  }
-  100% {
-    text-shadow: 0 0 5px rgba(206, 255, 57, 0.3), 0 0 10px rgba(255, 189, 57, 0.1);
-    color: #ffffff;
-  }
-}
+    /* FOOTER */
+    footer{background:var(--bg);border-top:1px solid var(--bd);padding:1.8rem 5%;text-align:center;position:relative;z-index:2}
+    .fbrand{font-family:'Syne',sans-serif;font-size:1.35rem;font-weight:800;color:var(--gold);margin-bottom:.4rem}
+    .fsub{color:var(--td);font-size:.82rem}
 
-</style>
+    /* TOAST */
+    #toasts{position:fixed;bottom:22px;right:22px;z-index:10000;display:flex;flex-direction:column;gap:9px}
+    .toast{background:var(--sf);border:1px solid var(--bdl);border-radius:12px;padding:11px 16px;display:flex;align-items:center;gap:10px;min-width:265px;max-width:350px;box-shadow:0 8px 30px rgba(0,0,0,.5);animation:tin .4s cubic-bezier(.175,.885,.32,1.275);position:relative;overflow:hidden}
+    .toast::after{content:'';position:absolute;bottom:0;left:0;height:2px;background:var(--gold);animation:tbar 3.3s linear forwards}
+    .toast.cy::after{background:var(--cyan)}
+    .toast.re::after{background:var(--red)}
+    @keyframes tin{from{opacity:0;transform:translateX(70px)}to{opacity:1;transform:none}}
+    @keyframes tbar{from{width:100%}to{width:0}}
+    .ti{font-size:1.1rem;color:var(--gold);flex-shrink:0}
+    .toast.cy .ti{color:var(--cyan)}.toast.re .ti{color:var(--red)}
+    .tb{flex:1}.ttl{font-weight:700;font-size:.85rem}.tms{color:var(--td);font-size:.76rem;margin-top:1px}
+    .tx{background:none;border:none;color:var(--td);cursor:pointer;font-size:.95rem}
 
+    /* BACK TOP */
+    #btop{position:fixed;bottom:22px;left:22px;width:44px;height:44px;border-radius:11px;background:var(--sf);border:1px solid var(--bdl);color:var(--gold);font-size:1rem;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:500;opacity:0;transform:translateY(10px);transition:opacity .3s,transform .3s,background .2s}
+    #btop.show{opacity:1;transform:none}
+    #btop:hover{background:var(--gold);color:#000}
 
-  </head>
-  <body data-spy="scroll" data-target=".site-navbar-target" data-offset="300">
-	  
-	  
-    <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar ftco-navbar-light site-navbar-target" id="ftco-navbar">
-	    <div class="container">
-	      <a class="navbar-brand" id="glowing-brand" href="index.html">SR. iMRAN</a>
-	      <button class="navbar-toggler js-fh5co-nav-toggle fh5co-nav-toggle" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
-	        <span class="oi oi-menu"></span> Menu
-	      </button>
+    /* RESPONSIVE */
+    @media(max-width:900px){
+      .hgrid{grid-template-columns:1fr;text-align:center}.hbtns,.hstats{justify-content:center}.hdesc{margin:0 auto 2rem}.hvis{order:-1}.porb{width:240px;height:240px}.oring.r1{width:300px;height:300px}.oring.r2{width:350px;height:350px}.agrid,.cgrid{grid-template-columns:1fr}.crow{grid-template-columns:repeat(2,1fr)}.cb::after{display:none}.npill{display:none}.hbg{display:flex}.cvblock{flex-direction:column;text-align:center}
+    }
+    @media(max-width:600px){
+      .pgrid{grid-template-columns:1fr}.fgrow{grid-template-columns:1fr}.crow{grid-template-columns:1fr 1fr}.ft2,.ft3{display:none}
+    }
+    @keyframes sline{0%,100%{opacity:1;transform:scaleY(1)}50%{opacity:.3;transform:scaleY(.5)}}
+  </style>
+</head>
+<body>
 
-	      <div class="collapse navbar-collapse" id="ftco-nav">
-	        <ul class="navbar-nav nav ml-auto">
-	          <li class="nav-item"><a href="#home-section" class="nav-link"><span>Home</span></a></li>
-	          <li class="nav-item"><a href="#about-section" class="nav-link"><span>About</span></a></li>
-	          <li class="nav-item"><a href="#resume-section" class="nav-link"><span>Resume</span></a></li>
-	          <li class="nav-item"><a href="#project-section" class="nav-link"><span>Projects</span></a></li>
-	          <li class="nav-item"><a href="#contact-section" class="nav-link"><span>Contact</span></a></li>
-	        </ul>
-	      </div>
-	    </div>
-	  </nav>
-	  <section id="home-section" class="hero">
-		  <div class="home-slider  owl-carousel">
-	       <div class="slider-item ">
-	      	<div class="overlay"></div>
-	         <div class="container">
-	          <div class="row d-md-flex no-gutters slider-text align-items-end justify-content-end" data-scrollax-parent="true">
-	          	<div class="one-third js-fullheight order-md-last img" style="background-image:url(images/sri11.png);">
-	          	 <div class="overlay"></div>
-	          	</div>
-		          <div class="one-forth d-flex  align-items-center ftco-animate" data-scrollax=" properties: { translateY: '70%' }">
-		          	<div class="text">
-		          		<span class="subheading">Hello!</span>
-				            <h1 class="mb-4 mt-3">I'm <span>Sifatur Rahman Imran</span></h1>
-						<!-- Element to contain animated typing -->
-						<span id="typing-animation"></span>
+<!-- LOADER -->
+<div id="ldr">
+  <div class="lbrand">SR.iMRAN</div>
+  <div class="ldots"><div class="ldot"></div><div class="ldot"></div><div class="ldot"></div></div>
+  <div class="lbar"><div class="lfill"></div></div>
+</div>
 
-						<script>
+<div id="sbar"></div>
+<div id="cur"></div>
+<div id="cur-ring"></div>
+<canvas id="bg-canvas"></canvas>
+<div id="toasts"></div>
+<button id="btop" onclick="scrollTo({top:0,behavior:'smooth'})"><i class="fa-solid fa-arrow-up"></i></button>
 
-						// Initialize the typing animation
-						const typingAnimationElement = document.getElementById('typing-animation');
+<!-- NAVBAR -->
+<nav id="nav">
+  <a class="brand" href="#home">
+    <span class="bl">S</span><span class="bl">R</span><span class="bl">.</span><span class="bl">i</span><span class="bl">M</span><span class="bl">R</span><span class="bl">A</span><span class="bl">N</span>
+  </a>
+  <div class="npill">
+    <a href="#home"     class="on" id="nl0"><div class="pbg"></div>Home</a>
+    <a href="#about"    id="nl1"><div class="pbg"></div>About</a>
+    <a href="#resume"   id="nl2"><div class="pbg"></div>Resume</a>
+    <a href="#projects" id="nl3"><div class="pbg"></div>Projects</a>
+    <a href="#contact"  id="nl4"><div class="pbg"></div>Contact</a>
+  </div>
+  <div class="nright">
+    <button class="tbtn" id="tbtn"><i class="fa-solid fa-moon" id="ticon"></i></button>
+    <button class="hbg" id="hbg"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+<div class="mobn" id="mobn">
+  <a href="#home"    onclick="closeMob()">Home</a>
+  <a href="#about"   onclick="closeMob()">About</a>
+  <a href="#resume"  onclick="closeMob()">Resume</a>
+  <a href="#projects"onclick="closeMob()">Projects</a>
+  <a href="#contact" onclick="closeMob()">Contact</a>
+</div>
 
-						// Create an array of typing text
-						const typingTexts = [
-					'Frontend Developer',
-					'MERN Stack Developer',
-					'CSE Student'
-				];
+<!-- HERO -->
+<section id="home">
+  <div class="dotbg"></div>
+  <div class="hgrid">
+    <div>
+      <div class="hchip rv"><i class="fa-solid fa-circle-dot" style="font-size:.55rem;animation:bk 1.5s infinite"></i> Available for Freelance</div>
+      <h1 class="hname rv">Hi, I'm<br><span>Sifatur Rahman</span><br>Imran.</h1>
+      <div class="htype rv"><span id="tyel"></span><span class="caret"></span></div>
+      <p class="hdesc rv">A passionate Frontend Developer specialising in the MERN stack and a CSE student at Daffodil International University. I build fast, responsive web experiences.</p>
+      <div class="hbtns rv">
+        <a href="https://www.linkedin.com/in/s-r-imran/" target="_blank" class="bgold"><i class="fa-brands fa-linkedin"></i> LinkedIn</a>
+        <a href="https://github.com/SR-iMrAN" target="_blank" class="bout"><i class="fa-brands fa-github"></i> GitHub</a>
+        <button class="bout" onclick="openCV()"><i class="fa-solid fa-file-arrow-down"></i> Resume</button>
+      </div>
+      <div class="hstats rv">
+        <div><div class="stn"><span class="ca" data-t="15">0</span><span style="color:var(--cyan);font-size:1.1rem">+</span></div><div class="stl">Projects</div></div>
+        <div><div class="stn"><span class="ca" data-t="20">0</span><span style="color:var(--cyan);font-size:1.1rem">+</span></div><div class="stl">Repos</div></div>
+        <div><div class="stn"><span class="ca" data-t="200">0</span><span style="color:var(--cyan);font-size:1.1rem">+</span></div><div class="stl">Hours</div></div>
+      </div>
+    </div>
+    <div class="hvis rv">
+      <div class="oring r1"></div>
+      <div class="oring r2"></div>
+      <div class="porb">
+        <img src="images/sri11.png" alt="Sifatur Rahman Imran" id="myimg"/>
+      </div>
+      <div class="ftag ft1"><i class="fa-brands fa-react"></i> React Dev</div>
+      <div class="ftag ft2"><i class="fa-brands fa-node-js"></i> MERN Stack</div>
+      <div class="ftag ft3"><i class="fa-solid fa-graduation-cap"></i> DIU CSE</div>
+    </div>
+  </div>
+  <div style="position:absolute;bottom:26px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:5px;color:var(--td);font-size:.68rem;letter-spacing:2px;text-transform:uppercase;z-index:2">
+    <div style="width:1px;height:42px;background:linear-gradient(to bottom,var(--gold),transparent);animation:sline 2s ease-in-out infinite"></div>
+    Scroll
+  </div>
+</section>
 
-						// Create a function to display the typing animation for a given text
-						function playTypingAnimation(text) {
-						// Loop through each character and add it to the element
-						for (let i = 0; i < text.length; i++) {
-							setTimeout(() => {
-							typingAnimationElement.textContent += text[i];
-							}, i * 200); // Increase the delay to slow down the typing animation
-						}
+<!-- ANIMATED BEAM -->
+<section id="beam">
+  <div class="w">
+    <div class="chip rv">Connections</div>
+    <h2 class="stitle rv">The Stack I <em>Connect</em> With</h2>
+    <p style="color:var(--td);max-width:520px;line-height:1.8;margin-bottom:0" class="rv">Every tool in my stack works in harmony — React on the client, Node.js on the server, MongoDB for data, and me at the centre connecting it all.</p>
+    <div class="bwrap rv" id="bwrap">
+      <div class="bnode bn-react" id="bnr"><i class="fa-brands fa-react" style="color:#61dafb"></i></div>
+      <div class="bnode bn-node"  id="bnn"><i class="fa-brands fa-node-js" style="color:#68a063"></i></div>
+      <div class="bnode bn-mongo" id="bnm"><i class="fa-solid fa-leaf" style="color:#52c97a"></i></div>
+      <div class="bnode bn-me ctr" id="bnme">
+        <img src="images/me.png" alt="Imran"/>
+      </div>
+      <div class="bnode bn-git"   id="bng"><i class="fa-brands fa-github" style="color:#ccc"></i></div>
+      <div class="bnode bn-js"    id="bnj"><i class="fa-brands fa-js" style="color:#f7df1e"></i></div>
+      <div class="bnode bn-py"    id="bnp"><i class="fa-brands fa-python" style="color:#3776ab"></i></div>
+      <svg class="bsvg" id="bsvg"></svg>
+    </div>
+  </div>
+</section>
 
-						// Once the animation is complete, reset the text and start over
-						setTimeout(() => {
-							typingAnimationElement.textContent = '';
-							playTypingAnimation(typingTexts[(typingTexts.indexOf(text) + 1) % typingTexts.length]);
-						}, text.length * 200);
-						}
+<!-- 3D SCROLL -->
+<section id="s3d">
+  <div class="w" style="padding-bottom:0">
+    <div class="chip rv"></div>
+    <h2 class="stitlea rv" style="text-align:center,paddong ">Latest <em>Project</em></h2>
+  </div>
+  <div class="s3out" id="s3out">
+    <div class="s3card" id="s3card">
+    <div class="s3title">CoverPoint <em>Generator</em></div>
+<div class="s3sub">HTML · CSS · JavaScript · PDF Generator</div>
+      <img class="s3img" src="images/poster.png" alt="Code preview"/>
+    </div>
+  </div>
+  </div>
+</section>
 
-						// Start the typing animation loop
-						playTypingAnimation(typingTexts[0]);
-
-						</script>
-
-						<br>
-						<br>
-				            <!-- <h2>Frontend Developer (MERN Stack) &amp; CSE Student</h2> -->
-						<!-- <h2 class="d-flex" style="margin-bottom: 0">With over 5 years of experience</h2> -->
-						<!-- <br> -->
-			            <p><a href="https://www.linkedin.com/in/s-r-imran/" class="btn btn-primary btn-blue py-3 px-4">LinkedIn</a> 
-							<a href="https://github.com/SR-iMrAN" class="btn btn-white btn-outline-white py-3 px-4">My works</a></p>
-		            </div>
-		          </div>
-	        	</div>
-	        </div>
-	      </div>
-		</div>
-    </section>
-
-
-
-    <section class="ftco-about img ftco-section ftco-no-pb" id="about-section">
-    	<div class="container">
-			<div class="row">
-				<div class="row d-flex align-items-stretch">
-				<!-- <div class="row d-flex"> -->
-					<div class="col-md-6 col-lg-5 d-flex">
-						<div class="img-about img d-flex align-items-stretch">
-							<div class="overlay">
-								<div class="row">
-									<div class="col-sm-6 col-md-5">
-									  <div class="about-img">
-										<img src="images/me.png" class="img-fluid border-2 rounded b-shadow-a" alt="">
-									  </div>
-									</div>
-									<!-- Details next to profile image -->
-									<div class="col-sm-6 col-md-7">
-									  <div class="about-info">
-									<p><span class="title-s">Name: </span> <span>Sifatur Rahman Imran</span></p>
-									<p><span class="title-s">Job Role: </span> <span>Frontend Developer (MERN Stack)</span></p>
-									<p><span class="title-s">Experience: </span> <span>Freelance / Student</span></p>
-									<p><span class="title-s">Address: </span> <span>Dhaka, Bangladesh</span></p>
-									  </div>
-									</div>
-								  </div>
-
-								<div class="skill-mf">
-									<p class="title-s">Skills</p>
-<span>JavaScript</span> <span class="pull-right">90%</span>
-							<div class="progress">
-								<div class="progress-bar" role="progressbar" style="width: 90%;" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100"></div>
-							</div>
-							
-							<span>React</span> <span class="pull-right">85%</span>
-							<div class="progress">
-								<div class="progress-bar" role="progressbar" style="width: 85%;" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100"></div>
-							</div>
-							
-							<span>Node.js</span> <span class="pull-right">80%</span>
-							<div class="progress">
-								<div class="progress-bar" role="progressbar" style="width: 80%;" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
-							</div>
-							
-							<span>MongoDB</span> <span class="pull-right">75%</span>
-							<div class="progress">
-								<div class="progress-bar" role="progressbar" style="width: 75%;" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
-									</div>
-									
-									<span>Java</span> <span class="pull-right">85%</span>
-									<div class="progress">
-										<div class="progress-bar" role="progressbar" style="width: 85%;" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100"></div>
-									</div>
-									
-									<span>C</span> <span class="pull-right">80%</span>
-									<div class="progress">
-										<div class="progress-bar" role="progressbar" style="width: 80%;" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
-									</div>
-									
-									<span>Python</span> <span class="pull-right">75%</span>
-									<div class="progress">
-										<div class="progress-bar" role="progressbar" style="width: 75%;" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
-									</div>
-									
-									<span>Photo / Video Editing</span> <span class="pull-right">70%</span>
-									<div class="progress">
-										<div class="progress-bar" role="progressbar" style="width: 70%;" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"></div>
-									</div>
-									
-									<span>MS Office</span> <span class="pull-right">70%</span>
-									<div class="progress">
-										<div class="progress-bar" role="progressbar" style="width: 70%;" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"></div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-					
-					<div class="col-md-6 col-lg-7 pl-lg-5 pb-5">
-						<div class="row justify-content-start pb-3">
-							<div class="col-md-12 heading-section ftco-animate">
-								
-								<h1 class="big">About</h1>
-								<h2 class="mb-4">About Me</h2>
-								
-							<p>I'm a Frontend Developer specializing in the MERN stack and a CSE student at Daffodil International University. I build responsive web apps using React, Node.js and MongoDB. I also have experience with Java, C, Python, and basic photo/video editing and MS Office tools.</p>
-								<ul class="about-info mt-4 px-md-0 px-2">
-<li class="d-flex"><span>Profile:</span> <span>Frontend Developer (MERN Stack)</span></li>
-								<li class="d-flex"><span>Domain:</span> <span>Web Development &amp; Student Projects</span></li>
-								<li class="d-flex"><span>Education:</span> <span>BSc in Computer Science &amp; Engineering (Daffodil International University)</span></li>
-								<li class="d-flex"><span>Language:</span> <span>Bangla, English, Hindi</span></li>
-								<li class="d-flex"><span>Tools:</span> <span>React, Node.js, MongoDB, Git, VSCode, Adobe Photoshop, Premiere, MS Office</span></li>
-								<li class="d-flex"><span>Other Skills:</span> <span>Java, C, Python, Photo &amp; Video Editing</span></li>
-								<li class="d-flex"><span>Interest:</span> <span>Web Development, Photography, Teaching</span></li>
-									
-								</ul>
-							</div>
-						</div>
-
-
-						<div class="counter-wrap ftco-animate d-flex mt-md-3">
-							<div class="text">
-								<p class="mb-4">
-									<span class="number" data-number="30">0</span> <span>+</span>
-									<span>&nbsp; Projects completed</span>
-								</p>
-								<p><a href="https:www.linkedin.com/in/s-r-imran/" target="_blank" class="btn btn-primary py-3 px-3">LinkedIn</a></p>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-    </section>
-
-
-
-	
-    <section class="ftco-section ftco-no-pb" id="resume-section">
-    	<div class="container">
-    		<div class="row justify-content-center pb-5">
-          <div class="col-md-10 heading-section text-center ftco-animate">
-          	<h1 class="big big-2">Resume</h1>
-            <h2 class="mb-4">Resume</h2>
-					    <p>Aspiring Frontend Developer and CSE student focused on MERN stack projects and web development coursework.</p>
-          </div>
+<!-- ABOUT -->
+<section id="about">
+  <div class="w">
+    <div class="chip rv">About</div>
+    <div class="agrid">
+      <div>
+        <div class="icard rv">
+          <div class="irow"><span class="ik">Name</span><span class="iv">Sifatur Rahman Imran</span></div>
+          <div class="irow"><span class="ik">Role</span><span class="iv">Frontend Developer (MERN)</span></div>
+          <div class="irow"><span class="ik">Status</span><span class="iv">Freelance + Student</span></div>
+          <div class="irow"><span class="ik">Location</span><span class="iv">Dhaka, Bangladesh</span></div>
+          <div class="irow"><span class="ik">Education</span><span class="iv">BSc CSE — DIU</span></div>
+          <div class="irow"><span class="ik">Languages</span><span class="iv">Bangla · English · Hindi</span></div>
         </div>
-
-		<div class="row">
-			<h1 class="big-4">Experience</h1>
-			<div class="underline"></div>
-		</div>
-		<br>
-		
-		<div class="row">
-				<div class="col-md-6">
-					<div class="resume-wrap ftco-animate">
-								<span class="date">2024-Present</span>
-								<h2>Frontend Developer (Freelance)</h2>
-								<span class="position">Self-Employed / Client Work</span>
-								<p class="mt-4">Worked on responsive single-page applications and websites using React, Node.js and MongoDB.
-									<ul>
-										<li>Built responsive UI with React and modern CSS, focusing on performance and accessibility.</li>
-										<li>Implemented REST APIs with Node.js and Express, integrated MongoDB for persistent storage.</li>
-										<li>Collaborated with clients on design and deployment using Git and Netlify/vercel?firebase.</li>
-						</p>
-					</div>
-
-				</div>
-
-				<div class="col-md-6">
-					<div class="resume-wrap ftco-animate">
-								<span class="date">2023-Present</span>
-								<h2>CSE Student</h2>
-								<span class="position">Daffodil International University</span>
-								<p class="mt-4">Pursuing BSc in Computer Science &amp; Engineering. Involved in course projects and hands-on web development.
-									<ul>
-										<li>Completed projects on C,Java, data structures, and databases.</li>
-										<li>Delivered presentations and participated in university coding activities.</li>
-										<li>Learning pogramming and contributing to open-source and personal projects.</li>
-						</p>
-					</div>
-
-				</div>
-			</div>
-
-		<br>
-		<br>
-
-		<div class="row">
-			<h1 class="big-4">Education</h1>
-			<div class="underline"></div>
-		</div>
-		<br>
-		
-			<div class="row">
-    			<div class="col-md-6">
-    				<div class="resume-wrap ftco-animate">
-    					<span class="date">2023-Present</span>
-    					<h2>Bachelor of Science in CSE</h2>
-						<a class="position" href="https://daffodilvarsity.edu.bd" target="_blank">
-    Daffodil International University.
-</a>
-    					<p class="mt-4">Ongoing degree program .</p>
-    				</div>
-    			</div>
-
-    			<div class="col-md-6">
-    				<div class="resume-wrap ftco-animate">
-    					<span class="date">2019-2022</span>
-    					<h2>Higher Secondary Certificate (HSC)</h2>
-    					<a class="position" href="https://www.debendracollege.gov.bd" target="_blank">
-    Govt. Debendra College,Manikganj.
-</a>
-
-						<p class="mt-4">Graduated with Science Group.</p>
-    					<!-- <p class="mt-4">Grade: 5.00</p> -->
-    				</div>
-				</div>
-    		</div>
-
-    		<div class="row justify-content-center mt-5">
-    			<div class="col-md-6 text-center ftco-animate">
-    				<p><a href="https://drive.google.com/file/d/1Rl3f1obBhAT1ceiD2MDWqFMpaJTtnp2f/view?usp=sharing" target="_blank" class="btn btn-primary py-4 px-5">Download CV</a></p>
-    			</div>
-    		</div>
-    	</div>
-    </section>
-
-   
-
-    <section class="ftco-section" id="project-section">
-      <div class="container">
-        <div class="row justify-content-center mb-5 pb-5">
-          <div class="col-md-7 heading-section text-center ftco-animate">
-            <h1 class="big big-2">Projects</h1>
-            <h2 class="mb-4">Projects</h2>
-            <p>Below are the sample Data Analytics projects on SQL, Python, Power BI & ML.</p>
-          </div>
-        </div>
-        <div class="row d-flex">
-          <div class="col-md-4 d-flex ftco-animate">
-          	<div class="blog-entry justify-content-end">
-              <a href="https://redlife1.web.app" target="_blank" class="block-20 zoom-effect" style="background-image: url('images/redlife.png');">
-              </a>
-              <div class="text mt-3 float-right d-block">
-
-                <h3 class="heading"><a href="https://redlife1.web.app"target="_blank">RedLife — Blood Donation Web App</a></h3>
-                <p>A role-based blood donation platform built with React, featuring donation requests, blogs, Stripe payments, and a responsive UI.</p>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-4 d-flex ftco-animate">
-          	<div class="blog-entry justify-content-end">
-              <a href="https://blog-nests.web.app" target="_blank" class="block-20 zoom-effect" style="background-image: url('images/blognest.png');">
-              </a>
-              <div class="text mt-3 float-right d-block">
-
-                <h3 class="heading"><a href="https://blog-nests.web.app"target="_blank">Blog Nests — Personal Blog</a></h3>
-                <p>A simple blog platform showcasing writing and tutorials; implemented content routing and responsive design.</p>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-4 d-flex ftco-animate">
-          	<div class="blog-entry">
-              <a href="https://plant-care-tracker-46c5b.web.app" target="_blank" class="block-20 zoom-effect" style="background-image: url('images/plantcare.png');">
-              </a>
-              <div class="text mt-3 float-right d-block">
-
-                <h3 class="heading"><a href="https://plant-care-tracker-46c5b.web.app" target="_blank">Plant Care Tracker</a></h3>
-                <p>A web app to track plant watering and care schedules with a clean, mobile-friendly UI.</p>
-              </div>
-            </div>
-          </div>
-        </div>
-	<br>
-		<!-- added justify-content-center to center align the last two projects -->
-		<div class="row d-flex justify-content-center">  
-			<div class="col-md-4 d-flex ftco-animate">
-				<div class="blog-entry justify-content-end">
-							<a href="https://github.com/SR-iMrAN/Examvaultplus" target="_blank" class="block-20 zoom-effect" style="background-image: url('images/examvault+.png');">
-				</a>
-				<div class="text mt-3 float-right d-block">
-  
-							  <h3 class="heading"><a href="https://github.com/SR-iMrAN/Examvaultplus" target="_blank">ExamVaultPlus — Exam Management</a></h3>
-							  <p>An exam management and practice platform (source code on GitHub) for organizing and taking mock tests.</p>
-				</div>
-			  </div>
-			</div>
-			<div class="col-md-4 d-flex ftco-animate">
-				<div class="blog-entry justify-content-end">
-							<a href="https://t.me/@MrRoutine_bot"target="_blank" class="block-20 zoom-effect" style="background-image: url('images/bot.png');">
-				</a>
-				<div class="text mt-3 float-right d-block">
-  
-							  <h3 class="heading"><a href="https://t.me/@MrRoutine_bot"target="_blank">MrRoutine — Telegram Bot</a></h3>
-							  <p>A Telegram bot to find routine with room and seats  for DIU students according to their section and Batch .</p>
-				</div>
-			  </div>
-			</div>
-		 </div>
-	  </div>
-    </section>
-
-	<section class="ftco-section ftco-no-pt ftco-no-pb ftco-counter img" id="section-counter">
-      <div class="container">
-		<div class="row d-md-flex align-items-center">
-          <div class="col-md d-flex justify-content-center counter-wrap ftco-animate">
-            <div class="block-18">
-              <div class="text">
-                <strong class="number" data-number="15">0</strong><span style="font-size: 24px; margin-left: 3px; display: inline-block; color: #ffbd39; vertical-align: baseline; line-height: 1;">+</span>
-                <span>Web Projects</span>
-              </div>
-            </div>
-          </div>
-          <div class="col-md d-flex justify-content-center counter-wrap ftco-animate">
-            <div class="block-18">
-              <div class="text">
-                <strong class="number" data-number="20">0</strong><span style="font-size: 24px; margin-left: 3px; display: inline-block; color: #ffbd39; vertical-align: baseline; line-height: 1;">+</span>
-                <span>GitHub Repos</span>
-              </div>
-            </div>
-          </div>
-          <div class="col-md d-flex justify-content-center counter-wrap ftco-animate">
-            <div class="block-18">
-              <div class="text">
-                <strong class="number" data-number="50">0</strong><span style="font-size: 24px; margin-left: 3px; display: inline-block; color: #ffbd39; vertical-align: baseline; line-height: 1;">+</span>
-                <span>K+ Lines of Code</span>
-              </div>
-            </div>
-          </div>
-          <div class="col-md d-flex justify-content-center counter-wrap ftco-animate">
-            <div class="block-18">
-              <div class="text">
-                <strong class="number" data-number="200">0</strong><span style="font-size: 24px; margin-left: 3px; display: inline-block; color: #ffbd39; vertical-align: baseline; line-height: 1;">+</span>
-                <span>Hours Coding</span>
-              </div>
-            </div>
-          </div>
+        <div class="skwrap rv" id="skwrap">
+          <div class="skh">Tech Skills</div>
+          <div class="sk"><div class="skt"><span class="skn"><i class="fa-brands fa-js"></i>JavaScript</span><span class="skp">90%</span></div><div class="skb"><div class="skf" style="--w:.9"></div></div></div>
+          <div class="sk"><div class="skt"><span class="skn"><i class="fa-brands fa-react"></i>React.js</span><span class="skp">85%</span></div><div class="skb"><div class="skf" style="--w:.85"></div></div></div>
+          <div class="sk"><div class="skt"><span class="skn"><i class="fa-brands fa-node-js"></i>Node.js</span><span class="skp">80%</span></div><div class="skb"><div class="skf" style="--w:.8"></div></div></div>
+          <div class="sk"><div class="skt"><span class="skn"><i class="fa-solid fa-leaf"></i>MongoDB</span><span class="skp">75%</span></div><div class="skb"><div class="skf" style="--w:.75"></div></div></div>
+          <div class="sk"><div class="skt"><span class="skn"><i class="fa-brands fa-java"></i>Java</span><span class="skp">85%</span></div><div class="skb"><div class="skf" style="--w:.85"></div></div></div>
+          <div class="sk"><div class="skt"><span class="skn"><i class="fa-brands fa-python"></i>Python</span><span class="skp">75%</span></div><div class="skb"><div class="skf" style="--w:.75"></div></div></div>
+          <div class="sk"><div class="skt"><span class="skn"><i class="fa-solid fa-c"></i>C Language</span><span class="skp">80%</span></div><div class="skb"><div class="skf" style="--w:.8"></div></div></div>
         </div>
       </div>
-	
-	  <div class="ftco-section ftco-hireme img margin-top" style="background-image: url(images/bg_1.jpg)">
-			<!-- <div class="container"> -->
-				<div class="row justify-content-center">
-					<div class="col-md-7 ftco-animate text-center">
-						<h2>Check Out My<span> GitHub  </span> </h2>
-						<div class="heading"> <h4> Building responsive web apps with React, Node.js &amp; MongoDB </h4>
-						<br>
-						<p><a href="https://github.com/SR-iMrAN" target="_blank" class="btn btn-primary py-3 px-5">GitHub</a></p>
-						</div>
-					</div>
-				</div>
-			<!-- </div> -->
-		</div>
-	</section>
-
-
-
-    <section class="ftco-section contact-section ftco-no-pb" id="contact-section">
-      <div class="container">
-      	<div class="row justify-content-center mb-5 pb-3">
-          <div class="col-md-7 heading-section text-center ftco-animate">
-            <h1 class="big big-2">Contact</h1>
-            <h2 class="mb-4">Contact Me</h2>
-            <p>Below are the details to reach out to me!</p>
-          </div>
+      <div>
+        <h2 class="stitle rv">About <em>Me</em></h2>
+        <p class="adesc rv">I'm a passionate Frontend Developer specialising in the MERN stack, currently pursuing my BSc in Computer Science &amp; Engineering at Daffodil International University.</p>
+        <p class="adesc rv">I build fast, responsive, and visually polished web applications — from clean UIs with React to robust APIs with Node.js and MongoDB. I care about code quality, accessibility, and user experience.</p>
+        <p class="adesc rv">Outside of code, I enjoy photography, teaching others, and contributing to side projects that solve real problems.</p>
+        <div class="twrap rv">
+          <span class="tg"><i class="fa-brands fa-react"></i>React</span>
+          <span class="tg"><i class="fa-brands fa-node-js"></i>Node.js</span>
+          <span class="tg"><i class="fa-solid fa-leaf"></i>MongoDB</span>
+          <span class="tg"><i class="fa-brands fa-js"></i>JavaScript</span>
+          <span class="tg"><i class="fa-brands fa-css3-alt"></i>Tailwind</span>
+          <span class="tg"><i class="fa-brands fa-git-alt"></i>Git</span>
+          <span class="tg"><i class="fa-brands fa-figma"></i>Figma</span>
+          <span class="tg"><i class="fa-brands fa-python"></i>Python</span>
+          <span class="tg"><i class="fa-brands fa-java"></i>Java</span>
+          <span class="tg"><i class="fa-solid fa-fire"></i>Firebase</span>
         </div>
+        <div class="rv" style="display:flex;gap:.8rem;flex-wrap:wrap">
+          <a href="https://www.linkedin.com/in/s-r-imran/" target="_blank" class="bgold"><i class="fa-brands fa-linkedin"></i> Connect</a>
+          <button class="bout" onclick="showHire()"><i class="fa-solid fa-briefcase"></i> Hire Me</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
-        <div class="row d-flex contact-info mb-5">
-          <div class="col-md-6 col-lg-3 d-flex ftco-animate">
-          	<div class="align-self-stretch box p-4 text-center">
-          		<div class="icon d-flex align-items-center justify-content-center">
-          			<span class="icon-map-signs"></span>
-          		</div>
-          		<h3 class="mb-4">Address</h3>
-	            <p>Dhaka, Bangladesh</p>
-	          </div>
-          </div>
-          <div class="col-md-6 col-lg-3 d-flex ftco-animate">
-          	<div class="align-self-stretch box p-4 text-center">
-          		<div class="icon d-flex align-items-center justify-content-center">
-          			<span class="icon-phone2"></span>
-          		</div>
-          		<h3 class="mb-4">Contact Number</h3>
-	            <p><a href="tel://0101010101">+8801898542928</a></p>
-	          </div>
-          </div>
-          <div class="col-md-6 col-lg-3 d-flex ftco-animate">
-          	<div class="align-self-stretch box p-4 text-center">
-          		<div class="icon d-flex align-items-center justify-content-center">
-          			<span class="icon-paper-plane"></span>
-          		</div>
-          		<h3 class="mb-4">Email Address</h3>
-	            <p><a href="mailto:srimran423@gmail.com" target="_blank">sri@gmail.com</a></p>
-	          </div>
-          </div>
-          <div class="col-md-6 col-lg-3 d-flex ftco-animate">
-          	<div class="align-self-stretch box p-4 text-center">
-          		<div class="icon d-flex align-items-center justify-content-center">
-          			<span class="icon-globe"></span>
-          		</div>
-          		<h3 class="mb-4">Download Resume</h3>
-	            <p><a href="https://drive.google.com/file/d/1Rl3f1obBhAT1ceiD2MDWqFMpaJTtnp2f/view?usp=sharing" target="_blank">Resume link</a></p>
-	          </div>
-          </div>
+<!-- RESUME -->
+<section id="resume">
+  <div class="w">
+    <div class="chip rv">Resume</div>
+    <h2 class="stitle rv">Experience &amp; <em>Education</em></h2>
+    <div class="rtabs rv">
+      <button class="rtab on" onclick="swTab('exp',this)"><i class="fa-solid fa-briefcase"></i> Experience</button>
+      <button class="rtab"    onclick="swTab('edu',this)"><i class="fa-solid fa-graduation-cap"></i> Education</button>
+    </div>
+    <div id="tex" class="tl">
+      <div class="tli on">
+        <div class="tld"><i class="fa-solid fa-code"></i></div>
+        <div class="tlc">
+          <div class="tldate">2024 — Present</div>
+          <div class="tlttl">Frontend Developer — Freelance</div>
+          <div class="tlsub">Self-Employed / Client Work · Dhaka, Bangladesh</div>
+          <ul class="tlpts">
+            <li>Built responsive SPAs using React and Tailwind CSS focusing on performance and accessibility.</li>
+            <li>Implemented REST APIs with Node.js + Express; integrated MongoDB for data persistence.</li>
+            <li>Deployed on Firebase, Vercel, and Netlify using Git CI/CD workflows.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="tli on" style="transition-delay:.15s">
+        <div class="tld"><i class="fa-solid fa-laptop-code"></i></div>
+        <div class="tlc">
+          <div class="tldate">2023 — Present</div>
+          <div class="tlttl">CSE Student — Active Learner</div>
+          <div class="tlsub">Daffodil International University · Dhaka</div>
+          <ul class="tlpts">
+            <li>Completed projects on C, Java, Data Structures, Algorithms, and Databases.</li>
+            <li>Participated in university coding activities and hackathons.</li>
+            <li>Contributing to open-source and personal portfolio projects.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div id="tedu" class="tl" style="display:none">
+      <div class="tli on">
+        <div class="tld"><i class="fa-solid fa-building-columns"></i></div>
+        <div class="tlc">
+          <div class="tldate">2023 — Present</div>
+          <div class="tlttl">Bachelor of Science in CSE</div>
+          <div class="tlsub"><a href="https://daffodilvarsity.edu.bd" target="_blank" style="color:var(--gold);text-decoration:none">Daffodil International University</a> · Savar, Dhaka</div>
+          <ul class="tlpts">
+            <li>Studying Computer Science &amp; Engineering with focus on software development.</li>
+            <li>Coursework: Data Structures, OOP, Algorithms, Database Systems, Web Dev.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="tli on" style="transition-delay:.15s">
+        <div class="tld"><i class="fa-solid fa-book-open"></i></div>
+        <div class="tlc">
+          <div class="tldate">2019 — 2022</div>
+          <div class="tlttl">Higher Secondary Certificate (HSC)</div>
+          <div class="tlsub"><a href="https://www.debendracollege.gov.bd" target="_blank" style="color:var(--gold);text-decoration:none">Govt. Debendra College</a> · Manikganj</div>
+          <ul class="tlpts">
+            <li>Graduated with Science Group.</li>
+            <li>Strong foundation in Mathematics, Physics, and Chemistry.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="cvblock rv">
+      <div><h3>Want my full resume?</h3><p>Download the PDF — complete skills, projects, and background.</p></div>
+      <a href="https://drive.google.com/file/d/1Rl3f1obBhAT1ceiD2MDWqFMpaJTtnp2f/view" target="_blank" class="bgold" onclick="toast('success','Resume','Opening your CV...')"><i class="fa-solid fa-file-arrow-down"></i> Download CV</a>
+    </div>
+  </div>
+</section>
 
-		  <div class="container">
-			<br>
-			<br>
-			<div class="row justify-content-center">
-				<div class="col-md-7 ftco-animate text-center">
-					<h2>Have a<span> Question?  </span> <a href="https://forms.gle/rUjwdvBsarW2wEgE6" target="_blank" "btn btn-primary py-3 px-5">Click Here</a> </h2>
-				</div>
-			</div>
-				<br>
-					<ul class="ftco-footer-social list-unstyled d-flex justify-content-center align-items-center mb-0">
-					  <li class="ftco-animate normal-txt "target="_blank">Find me on  </li>
-					    <li class="ftco-animate" target="_blank"><a href="https://www.linkedin.com/in/s-r-imran/"target="_blank"><span class="icon-linkedin"></span></a></li>  
-  <li class="ftco-animate"target="_blank"><a href="https://www.facebook.com/sifatur.rahmanimran003/"target="_blank"><span class="icon-facebook"></span></a></li>
-				      <li class="ftco-animate"target="_blank"><a href="https://www.instagram.com/Imran.sifat/#"target="_blank"><span class="icon-instagram"></span></a></li>
-					  <li class="ftco-animate" target="_blank"><a href="https://www.youtube.com/@IMRANSIFAT"target="_blank"><span class="icon-youtube"></span></a></li>
-					
-					  <!-- <li class="ftco-animate" target="_blank" ><a href="https://www.instagram.com/Imran.sifat/#"><span class="icon-twitter"></span></a></li> -->
-					
-					</ul>
-				<br>
-		   </div>
-   </div>
- </section>
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="w">
+    <div class="chip rv">Projects</div>
+    <h2 class="stitle rv">My Best <em>Works</em></h2>
+    <div class="pgrid" id="pgrid"></div>
+  </div>
+</section>
 
+<!-- COUNTERS -->
+<section id="ctrs">
+  <div class="crow">
+    <div class="cb rv"><div class="cn"><span class="ca" data-t="15">0</span><sup>+</sup></div><div class="cl"><i class="fa-solid fa-globe" style="color:var(--gold);margin-right:4px"></i>Web Projects</div></div>
+    <div class="cb rv"><div class="cn"><span class="ca" data-t="20">0</span><sup>+</sup></div><div class="cl"><i class="fa-brands fa-github" style="color:var(--td);margin-right:4px"></i>GitHub Repos</div></div>
+    <div class="cb rv"><div class="cn"><span class="ca" data-t="50">0</span><sup>K+</sup></div><div class="cl"><i class="fa-solid fa-code" style="color:var(--cyan);margin-right:4px"></i>Lines of Code</div></div>
+    <div class="cb rv"><div class="cn"><span class="ca" data-t="200">0</span><sup>+</sup></div><div class="cl"><i class="fa-regular fa-clock" style="color:var(--td);margin-right:4px"></i>Hours Coding</div></div>
+  </div>
+</section>
 
- 
-	
-    <footer class="ftco-footer ftco-section">
-		<div class="container">
-		  <div class="row">
-			<div class="col-md-12 text-center">
-  
-			  
-	Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved SRi <i class="icon-heart color-danger" aria-hidden="true"></i>
-	
-			</div>
-		  </div>
-		</div>
-	  </footer>
+<!-- CONTACT -->
+<section id="contact">
+  <div class="w">
+    <div class="chip rv">Contact</div>
+    <h2 class="stitle rv">Let's Work <em>Together</em></h2>
+    <div class="cgrid">
+      <div>
+        <p class="rv" style="color:var(--td);line-height:1.85;font-size:1rem;margin-bottom:1.8rem">I'm always open to new opportunities, interesting projects, and collaborations. Drop me a message and I'll reply shortly.</p>
+        <div class="cirow rv"><div class="cico"><i class="fa-solid fa-location-dot"></i></div><div><div class="cilbl">Location</div><div class="cival">Dhaka, Bangladesh</div></div></div>
+        <div class="cirow rv"><div class="cico"><i class="fa-solid fa-phone"></i></div><div><div class="cilbl">Phone</div><div class="cival"><a href="tel:+8801898542928">+880 1898 542928</a></div></div></div>
+        <div class="cirow rv"><div class="cico"><i class="fa-solid fa-envelope"></i></div><div><div class="cilbl">Email</div><div class="cival"><a href="/cdn-cgi/l/email-protection#4734352e2a35262973757407202a262e2b6924282a"><span class="__cf_email__" data-cfemail="ef9c9d86829d8e81dbdddcaf88828e8683c18c8082">[email&#160;protected]</span></a></div></div></div>
+        <div class="socs rv">
+          <a href="https://www.linkedin.com/in/s-r-imran/" target="_blank" class="soc s-li" title="LinkedIn"><i class="fa-brands fa-linkedin"></i></a>
+          <a href="https://github.com/SR-iMrAN"            target="_blank" class="soc s-gh" title="GitHub"><i class="fa-brands fa-github"></i></a>
+          <a href="https://www.facebook.com/sifatur.rahmanimran003/" target="_blank" class="soc s-fb" title="Facebook"><i class="fa-brands fa-facebook"></i></a>
+          <a href="https://www.instagram.com/Imran.sifat/" target="_blank" class="soc s-ig" title="Instagram"><i class="fa-brands fa-instagram"></i></a>
+          <a href="https://www.youtube.com/@IMRANSIFAT"    target="_blank" class="soc s-yt" title="YouTube"><i class="fa-brands fa-youtube"></i></a>
+          <a href="https://t.me/MrRoutine_bot"             target="_blank" class="soc s-tg" title="Telegram"><i class="fa-brands fa-telegram"></i></a>
+        </div>
+      </div>
+      <!-- CONTACT FORM — submits to Google Forms -->
+      <div class="cform rv" id="cform">
+        <div class="cftitle">Send a Message</div>
+        <!-- Hidden iframe for form submission (no redirect) -->
+        <iframe name="hidden_iframe" id="hidden_iframe" style="display:none"></iframe>
+        <div class="fgrow">
+          <div class="fg"><label class="fl">First Name</label><input class="fi" type="text" placeholder="John" id="fn"/></div>
+          <div class="fg"><label class="fl">Last Name</label><input class="fi" type="text" placeholder="Doe" id="ln"/></div>
+        </div>
+        <div class="fg"><label class="fl">Email</label><input class="fi" type="email" placeholder="john@example.com" id="em"/></div>
+        <div class="fg"><label class="fl">Subject</label><input class="fi" type="text" placeholder="Project inquiry..." id="sub"/></div>
+        <div class="fg"><label class="fl">Message</label><textarea class="fi" rows="5" placeholder="Tell me about your project..." id="msg"></textarea></div>
+        <button class="bgold" style="width:100%;justify-content:center" onclick="sendMsg()"><i class="fa-solid fa-paper-plane"></i> Send Message</button>
+      </div>
+    </div>
+  </div>
+</section>
 
+<footer>
+  <div class="fbrand">SR. iMRAN</div>
+  <p class="fsub">Frontend Developer · MERN Stack · CSE Student at DIU</p>
+  <p class="fsub" style="margin-top:.35rem"><i class="fa-regular fa-copyright"></i> <span id="yr"></span> Sifatur Rahman Imran &nbsp;·&nbsp; Made with <i class="fa-solid fa-heart" style="color:var(--red)"></i></p>
+</footer>
 
-  <!-- loader -->
-  <div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"><circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/><circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#F96D00"/></svg></div>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+// ═══ PROJECTS DATA (updated with emoji icons + corrected code links + new project) ═══
+const PJ=[
+  {
+    emoji:'🩸', color:'#ef4444',
+    tag:'Full Stack · React · Firebase',
+    name:'RedLife — Blood Donation Platform',
+    desc:'A role-based blood donation web app with donation requests, blogs, Stripe payments, and admin dashboard.',
+    stack:['React','Firebase','Stripe','Node.js','MongoDB','Tailwind'],
+    live:'https://redlife1.web.app',
+    code:'https://github.com/SR-iMrAN/RedLife'
+  },
+  {
+    emoji:'📝', color:'#3b82f6',
+    tag:'Frontend · React',
+    name:'Blog Nests — Personal Blog Platform',
+    desc:'A personal blog with content routing, responsive design, and clean typography-focused layouts.',
+    stack:['React','React Router','CSS','Firebase'],
+    live:'https://blog-nests.web.app',
+    code:'https://github.com/SR-iMrAN/Blog-Nests'
+  },
+  {
+    emoji:'🌿', color:'#22c55e',
+    tag:'Frontend · React',
+    name:'Plant Care Tracker',
+    desc:'Track plant watering and care schedules. Clean, mobile-first UI with reminder features.',
+    stack:['React','Firebase','Tailwind','LocalStorage'],
+    live:'https://plant-care-tracker-46c5b.web.app',
+    code:'https://github.com/SR-iMrAN/Plant-Care-Tracker'
+  },
+  {
+    emoji:'📋', color:'#a855f7',
+    tag:'Java · Exam Platform',
+    name:'ExamVaultPlus — Exam Management',
+    desc:'A complete exam management and practice platform for organizing and taking mock tests online.',
+    stack:['Java','CMD'],
+    live:'#',
+    code:'https://github.com/SR-iMrAN/Examvaultplus'
+  },
+  {
+    emoji:'📄', color:'#f59e0b',
+    tag:'Tool · Client-Side · PDF',
+    name:'CoverPoint — Cover Page Generator',
+    desc:'A professional web tool to generate assignment & lab report cover pages with live preview and built-in PDF merge — fast, clean, and fully client-side.',
+    stack:['HTML','CSS','JavaScript','PDF Merge','Client-Side'],
+    live:'https://coverpoint.netlify.app',
+    code:'https://github.com/SR-iMrAN/Cover-page-generator'
+  },
+  {
+    emoji:'🤖', color:'#0ea5e9',
+    tag:'Telegram Bot · Python',
+    name:'MrRoutine — DIU Telegram Bot',
+    desc:'A Telegram bot for DIU students to find class routines, room numbers and seat info by section and batch.',
+    stack:['Python','Telegram API','BeautifulSoup','Deployed'],
+    live:'https://t.me/MrRoutine_bot',
+    code:'https://github.com/SR-iMrAN/MrRoutine-Bot'
+  },
+];
 
+function renderProjects(){
+  document.getElementById('pgrid').innerHTML=PJ.map((p,i)=>`
+    <div class="pc" style="transition-delay:${i*.1}s">
+      <div class="pthumb" style="background:linear-gradient(135deg,${p.color}11,${p.color}22)">
+        <div class="ptglow" style="background:radial-gradient(circle at 50% 50%,${p.color}33,transparent 65%)"></div>
+        <span style="font-size:2.8rem;transition:transform .4s;display:inline-block" class="pemoji">${p.emoji}</span>
+      </div>
+      <div class="pbody">
+        <div class="plbl">${p.tag}</div>
+        <div class="pname">${p.name}</div>
+        <p class="pdesc">${p.desc}</p>
+        <div class="pchips">${p.stack.map(s=>`<span class="pch">${s}</span>`).join('')}</div>
+        <div class="plinks">
+          ${p.live!=='#'?`<a href="${p.live}" target="_blank" class="plnk solid" onclick="toast('info','Project','Opening live demo...')"><i class="fa-solid fa-arrow-up-right-from-square"></i> Live</a>`:''}
+          <a href="${p.code}" target="_blank" class="plnk"><i class="fa-brands fa-github"></i> Code</a>
+        </div>
+      </div>
+    </div>`).join('');
 
-  <script src="js/jquery.min.js"></script>
-  <script src="js/jquery-migrate-3.0.1.min.js"></script>
-  <script src="js/popper.min.js"></script>
-  <script src="js/bootstrap.min.js"></script>
-  <script src="js/jquery.easing.1.3.js"></script>
-  <script src="js/jquery.waypoints.min.js"></script>
-  <script src="js/jquery.stellar.min.js"></script>
-  <script src="js/owl.carousel.min.js"></script>
-  <script src="js/jquery.magnific-popup.min.js"></script>
-  <script src="js/aos.js"></script>
-  <script src="js/jquery.animateNumber.min.js"></script>
-  <script src="js/scrollax.min.js"></script>
-  
-  <script src="js/main.js"></script>
-  
-  <script>
-    // Glowing letter-by-letter animation for navbar brand
-    document.addEventListener('DOMContentLoaded', function() {
-      const brandElement = document.getElementById('glowing-brand');
-      if (brandElement) {
-        const text = brandElement.textContent;
-        brandElement.textContent = ''; // Clear the original text
-        
-        // Wrap each letter in a span with staggered animation
-        let charIndex = 0;
-        for (let char of text) {
-          const span = document.createElement('span');
-          span.textContent = char;
-          span.className = 'glow-letter';
-          span.style.animationDelay = (charIndex * 0.25) + 's';
-          brandElement.appendChild(span);
-          charIndex++;
-        }
-      }
+  // Emoji hover scale
+  document.querySelectorAll('.pc').forEach(card=>{
+    card.addEventListener('mouseenter',()=>{
+      const e=card.querySelector('.pemoji'); if(e) e.style.transform='scale(1.18) rotate(4deg)';
     });
-  </script>
-    
-  </body>
+    card.addEventListener('mouseleave',()=>{
+      const e=card.querySelector('.pemoji'); if(e) e.style.transform='';
+    });
+  });
+}
+
+// ═══ TOAST ═══
+function toast(type,title,msg){
+  const ic={success:'fa-circle-check',info:'fa-circle-info',warn:'fa-triangle-exclamation',error:'fa-circle-xmark'};
+  const cl={success:'',info:'cy',warn:'',error:'re'};
+  const c=document.getElementById('toasts');
+  const t=document.createElement('div');
+  t.className=`toast ${cl[type]||''}`;
+  t.innerHTML=`<i class="fa-solid ${ic[type]||'fa-bell'} ti"></i><div class="tb"><div class="ttl">${title}</div><div class="tms">${msg}</div></div><button class="tx" onclick="this.parentElement.remove()"><i class="fa-solid fa-xmark"></i></button>`;
+  c.appendChild(t);
+  setTimeout(()=>{t.style.transition='.4s';t.style.opacity='0';t.style.transform='translateX(70px)';setTimeout(()=>t.remove(),400);},3500);
+}
+
+// ═══ SWAL HIRE ═══
+function showHire(){
+  Swal.fire({
+    title:'<span style="font-family:Syne,sans-serif;font-weight:800">Hire Imran</span>',
+    html:`<p style="color:#7a8196;margin-bottom:1rem">Looking for a dedicated MERN developer for your next project?</p>
+    <div style="background:#13161d;border:1px solid #2e3448;border-radius:12px;padding:1.2rem;text-align:left">
+      <p style="color:#d4a843;font-weight:600;margin-bottom:.5rem"><i class="fa-solid fa-envelope" style="margin-right:6px"></i>srimran423@gmail.com</p>
+      <p style="color:#d4a843;font-weight:600;margin-bottom:.5rem"><i class="fa-solid fa-phone" style="margin-right:6px"></i>+880 1898 542928</p>
+      <p style="color:#7a8196;font-size:.84rem">Available for freelance, internships &amp; collaborations.</p>
+    </div>`,
+    background:'#0b0d11',color:'#e8eaf0',
+    confirmButtonColor:'#d4a843',
+    confirmButtonText:'<i class="fa-brands fa-linkedin" style="margin-right:6px"></i>LinkedIn',
+    showCancelButton:true,cancelButtonText:'Close',cancelButtonColor:'#1e2230'
+  }).then(r=>{if(r.isConfirmed)window.open('https://www.linkedin.com/in/s-r-imran/','_blank');});
+}
+
+// ═══ CV ═══
+function openCV(){
+  window.open('https://drive.google.com/file/d/1Rl3f1obBhAT1ceiD2MDWqFMpaJTtnp2f/view','_blank');
+  toast('success','Resume','Opening your CV in a new tab.');
+}
+
+// ═══ CONTACT SEND — Google Forms backend ═══
+// Google Form entry IDs (from the form's viewform URL)
+// Form: https://docs.google.com/forms/d/e/1FAIpQLScqNr4Bg_2pJWT-56bxQb68u-a1huKC8zBU2Wxe5xNe3K2eGw/viewform
+// Field mapping (from the sheet headers shown):
+//   Name  → entry.2005620554  (Your Full Name)
+//   Email → entry.1045781291  (Your Email Address)
+//   Message → entry.839337160  (Write your message)
+// Note: subject & last name are merged into message for simplicity
+// (Update entry IDs below if needed by inspecting the form's source)
+const FORM_ACTION = 'https://docs.google.com/forms/u/0/d/e/1FAIpQLScqNr4Bg_2pJWT-56bxQb68u-a1huKC8zBU2Wxe5xNe3K2eGw/formResponse';
+const ENTRY = {
+  name:    'entry.505058448',
+  email:   'entry.1594272103',
+  subject: 'entry.1816144369', // Not a separate field in form, will merge into message
+  message: 'entry.82745240'
+};
+
+function sendMsg(){
+  const fn  = document.getElementById('fn').value.trim();
+  const ln  = document.getElementById('ln').value.trim();
+  const em  = document.getElementById('em').value.trim();
+  const sub = document.getElementById('sub').value.trim();
+  const ms  = document.getElementById('msg').value.trim();
+
+  if(!fn||!em||!ms){
+    Swal.fire({icon:'warning',title:'Fields Required',text:'Please fill in your name, email and message.',background:'#0b0d11',color:'#e8eaf0',confirmButtonColor:'#d4a843'});
+    return;
+  }
+  if(!em.includes('@')){toast('error','Invalid Email','Please enter a valid email address.');return;}
+
+  // Build full name & combined message
+  const fullName = ln ? `${fn} ${ln}` : fn;
+  // const fullMsg  = sub ? `[${sub}]\n\n${ms}` : ms;
+ const fullMsg  =  ms;
+  // Dynamically create & submit the form to Google Forms via hidden iframe
+  const form = document.createElement('form');
+  form.method = 'POST';
+  form.action = FORM_ACTION;
+  form.target = 'hidden_iframe';
+
+  function addField(name, value){
+    const inp = document.createElement('input');
+    inp.type  = 'hidden';
+    inp.name  = name;
+    inp.value = value;
+    form.appendChild(inp);
+  }
+
+  addField(ENTRY.name,    fullName);
+  addField(ENTRY.email,   em);
+  addField(ENTRY.subject, sub); // Subject merged into message for simplicity
+  addField(ENTRY.message, fullMsg);
+
+  document.body.appendChild(form);
+  form.submit();
+  document.body.removeChild(form);
+
+  // Show success feedback
+  Swal.fire({
+    icon:'success',title:'Message Sent!',
+    html:`<p style="color:#7a8196">Thanks <b style="color:#d4a843">${fn}</b>! I'll reply to <b style="color:#d4a843">${em}</b> soon.</p>`,
+    background:'#0b0d11',color:'#e8eaf0',
+    confirmButtonColor:'#d4a843',timer:3000,timerProgressBar:true
+  }).then(()=>{
+    ['fn','ln','em','sub','msg'].forEach(id=>document.getElementById(id).value='');
+    toast('info','Done','Your message is on its way!');
+  });
+}
+
+// ═══ TYPING ═══
+const TT=['Frontend Developer','MERN Stack Developer','React Enthusiast','CSE Student @ DIU'];
+let ti=0,ci=0,del=false;
+function typeLoop(){
+  const el=document.getElementById('tyel'); const cur=TT[ti];
+  if(!del){el.textContent=cur.slice(0,++ci);if(ci===cur.length){del=true;setTimeout(typeLoop,1800);return;}}
+  else{el.textContent=cur.slice(0,--ci);if(ci===0){del=false;ti=(ti+1)%TT.length;setTimeout(typeLoop,380);return;}}
+  setTimeout(typeLoop,del?44:85);
+}
+typeLoop();
+
+// ═══ CURSOR ═══
+const CU=document.getElementById('cur'),CR=document.getElementById('cur-ring');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;CU.style.left=mx+'px';CU.style.top=my+'px';});
+(function ar(){rx+=(mx-rx)*.12;ry+=(my-ry)*.12;CR.style.left=rx+'px';CR.style.top=ry+'px';requestAnimationFrame(ar);})();
+
+// ═══ THEME ═══
+const HE=document.getElementById('html-root');
+let dark=true;
+document.getElementById('tbtn').onclick=()=>{
+  dark=!dark;
+  HE.classList.toggle('light',!dark);
+  document.getElementById('ticon').className=dark?'fa-solid fa-moon':'fa-solid fa-sun';
+  toast('info','Theme',dark?'Dark mode on.':'Light mode on.');
+};
+
+// ═══ THREE.JS ═══
+(function(){
+  const cv=document.getElementById('bg-canvas');
+  const rn=new THREE.WebGLRenderer({canvas:cv,alpha:true,antialias:false});
+  rn.setSize(innerWidth,innerHeight); rn.setPixelRatio(Math.min(devicePixelRatio,1.5));
+  const sc=new THREE.Scene(), cm=new THREE.PerspectiveCamera(60,innerWidth/innerHeight,.1,1000);
+  cm.position.z=50;
+  const geo=new THREE.BufferGeometry(), n=1500;
+  const pos=new Float32Array(n*3), col=new Float32Array(n*3);
+  for(let i=0;i<n;i++){
+    pos[i*3]=(Math.random()-.5)*200;pos[i*3+1]=(Math.random()-.5)*200;pos[i*3+2]=(Math.random()-.5)*100;
+    const r=Math.random(); let c;
+    if(r<.4)c=[.83,.66,.26];
+    else if(r<.65)c=[.22,.74,.97];
+    else c=[.75,.77,.82];
+    col[i*3]=c[0];col[i*3+1]=c[1];col[i*3+2]=c[2];
+  }
+  geo.setAttribute('position',new THREE.BufferAttribute(pos,3));
+  geo.setAttribute('color',new THREE.BufferAttribute(col,3));
+  const mat=new THREE.PointsMaterial({size:.2,vertexColors:true,transparent:true,opacity:.6});
+  const pts=new THREE.Points(geo,mat); sc.add(pts);
+  let mx2=0,my2=0;
+  document.addEventListener('mousemove',e=>{mx2=(e.clientX/innerWidth-.5)*.25;my2=(e.clientY/innerHeight-.5)*.25;});
+  (function a(){requestAnimationFrame(a);pts.rotation.y+=.0007;pts.rotation.x+=.0003;cm.position.x+=(mx2-cm.position.x)*.03;cm.position.y+=(-my2-cm.position.y)*.03;rn.render(sc,cm);})();
+  window.addEventListener('resize',()=>{cm.aspect=innerWidth/innerHeight;cm.updateProjectionMatrix();rn.setSize(innerWidth,innerHeight);});
+})();
+
+// ═══ BEAM ═══
+function drawBeams(){
+  const svg=document.getElementById('bsvg');
+  const box=document.getElementById('bwrap');
+  const me=document.getElementById('bnme');
+  const ids=['bnr','bnn','bnm','bng','bnj','bnp'];
+  const br=box.getBoundingClientRect();
+  const mr=me.getBoundingClientRect();
+  const cx=mr.left-br.left+mr.width/2, cy=mr.top-br.top+mr.height/2;
+  svg.innerHTML='';
+  const defs=document.createElementNS('http://www.w3.org/2000/svg','defs');
+  svg.appendChild(defs);
+  ids.forEach((id,i)=>{
+    const el=document.getElementById(id); if(!el)return;
+    const r=el.getBoundingClientRect();
+    const x=r.left-br.left+r.width/2, y=r.top-br.top+r.height/2;
+    const gid='bg'+i;
+    const g=document.createElementNS('http://www.w3.org/2000/svg','linearGradient');
+    g.setAttribute('id',gid); g.setAttribute('gradientUnits','userSpaceOnUse');
+    g.setAttribute('x1',x); g.setAttribute('y1',y); g.setAttribute('x2',cx); g.setAttribute('y2',cy);
+    const s1=document.createElementNS('http://www.w3.org/2000/svg','stop'); s1.setAttribute('offset','0%'); s1.setAttribute('stop-color','#d4a843'); s1.setAttribute('stop-opacity','0');
+    const s2=document.createElementNS('http://www.w3.org/2000/svg','stop'); s2.setAttribute('offset','45%'); s2.setAttribute('stop-color','#d4a843');
+    const s3=document.createElementNS('http://www.w3.org/2000/svg','stop'); s3.setAttribute('offset','100%'); s3.setAttribute('stop-color','#38bdf8'); s3.setAttribute('stop-opacity','0');
+    g.appendChild(s1); g.appendChild(s2); g.appendChild(s3); defs.appendChild(g);
+    const ctrl={x:(x+cx)/2, y:(y+cy)/2-25};
+    const d=`M ${x},${y} Q ${ctrl.x},${ctrl.y} ${cx},${cy}`;
+    const base=document.createElementNS('http://www.w3.org/2000/svg','path');
+    base.setAttribute('d',d); base.setAttribute('stroke','rgba(255,255,255,.07)');
+    base.setAttribute('stroke-width','1.5'); base.setAttribute('fill','none'); base.setAttribute('stroke-linecap','round');
+    svg.appendChild(base);
+    const ap=document.createElementNS('http://www.w3.org/2000/svg','path');
+    ap.setAttribute('d',d); ap.setAttribute('stroke',`url(#${gid})`);
+    ap.setAttribute('stroke-width','1.8'); ap.setAttribute('fill','none'); ap.setAttribute('stroke-linecap','round');
+    ap.setAttribute('stroke-dasharray','38 200'); ap.setAttribute('stroke-dashoffset','238');
+    ap.style.animation=`bt ${2.8+i*.35}s ease-in-out ${i*.45}s infinite`;
+    svg.appendChild(ap);
+  });
+  if(!document.getElementById('bst')){
+    const st=document.createElement('style'); st.id='bst';
+    st.textContent='@keyframes bt{0%{stroke-dashoffset:238;opacity:0}8%{opacity:1}85%{opacity:1}100%{stroke-dashoffset:-238;opacity:0}}';
+    document.head.appendChild(st);
+  }
+}
+
+// ═══ 3D SCROLL ═══
+function init3D(){
+  const card=document.getElementById('s3card');
+  const outer=document.getElementById('s3out');
+  function update(){
+    const r=outer.getBoundingClientRect();
+    const c=r.top+r.height/2;
+    const p=(innerHeight/2-c)/(innerHeight/2);
+    const cl=Math.max(-1,Math.min(1,p));
+    card.style.transform=`perspective(900px) rotateX(${cl*16}deg) scale(${1-Math.abs(cl)*.055})`;
+  }
+  window.addEventListener('scroll',update,{passive:true}); update();
+}
+
+// ═══ SCROLL HANDLER ═══
+function onScroll(){
+  const pct=scrollY/(document.body.scrollHeight-innerHeight);
+  document.getElementById('sbar').style.transform=`scaleX(${pct})`;
+  document.getElementById('nav').classList.toggle('sc',scrollY>40);
+  document.getElementById('btop').classList.toggle('show',scrollY>350);
+  document.querySelectorAll('.rv').forEach(el=>{if(el.getBoundingClientRect().top<innerHeight*.88)el.classList.add('sh');});
+  const sw=document.getElementById('skwrap');
+  if(sw&&sw.getBoundingClientRect().top<innerHeight*.9) document.querySelectorAll('.skf').forEach(b=>b.classList.add('on'));
+  document.querySelectorAll('.ca').forEach(el=>{
+    if(el.getBoundingClientRect().top<innerHeight*.9&&!el.dataset.done){el.dataset.done=1;countUp(el,+el.dataset.t);}
+  });
+  document.querySelectorAll('.tli').forEach(el=>{if(el.getBoundingClientRect().top<innerHeight*.88)el.classList.add('on');});
+  document.querySelectorAll('.pc').forEach(el=>{if(el.getBoundingClientRect().top<innerHeight*.9)el.classList.add('on');});
+
+  // Active nav
+  const smap=[['home','nl0'],['beam','nl1'],['s3d',null],['about','nl1'],['resume','nl2'],['projects','nl3'],['ctrs',null],['contact','nl4']];
+  let cur='nl0';
+  smap.forEach(([id,nl])=>{
+    const s=document.getElementById(id);
+    if(s&&s.getBoundingClientRect().top<=80&&nl) cur=nl;
+  });
+  document.querySelectorAll('.npill a').forEach(a=>a.classList.remove('on'));
+  document.getElementById(cur)?.classList.add('on');
+}
+
+function countUp(el,t){
+  let s=0; const dur=1900; const st=performance.now();
+  (function step(now){const p=Math.min((now-st)/dur,1),e=1-Math.pow(1-p,3);el.textContent=Math.floor(e*t);if(p<1)requestAnimationFrame(step);else el.textContent=t;})(performance.now());
+}
+
+// ═══ 3D TILT ═══
+document.addEventListener('mousemove',e=>{
+  document.querySelectorAll('.pc,.cform,.icard').forEach(card=>{
+    const r=card.getBoundingClientRect();
+    const dx=(e.clientX-r.left-r.width/2)/r.width, dy=(e.clientY-r.top-r.height/2)/r.height;
+    if(Math.abs(dx)<.65&&Math.abs(dy)<.65) card.style.transform=`perspective(700px) rotateY(${dx*8}deg) rotateX(${-dy*8}deg)`;
+    else card.style.transform='';
+  });
+});
+
+// ═══ TABS ═══
+function swTab(t,btn){
+  document.querySelectorAll('.rtab').forEach(b=>b.classList.remove('on')); btn.classList.add('on');
+  document.getElementById('tex').style.display=t==='exp'?'block':'none';
+  document.getElementById('tedu').style.display=t==='edu'?'block':'none';
+}
+
+// ═══ MOBILE NAV ═══
+document.getElementById('hbg').onclick=()=>document.getElementById('mobn').classList.toggle('open');
+function closeMob(){document.getElementById('mobn').classList.remove('open');}
+
+// ═══ INIT ═══
+document.getElementById('yr').textContent=new Date().getFullYear();
+renderProjects();
+window.addEventListener('scroll',onScroll,{passive:true});
+setTimeout(()=>{
+  document.getElementById('ldr').classList.add('gone');
+  onScroll(); drawBeams(); init3D();
+  toast('info','Welcome','Thanks for visiting — enjoy exploring!');
+},2000);
+window.addEventListener('resize',drawBeams);
+</script>
+</body>
 </html>
