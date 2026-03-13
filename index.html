@@ -168,9 +168,23 @@
 
     /* Hero visual */
     .hvis{display:flex;align-items:center;justify-content:center;position:relative}
-    .porb{width:310px;height:310px;border-radius:30% 70% 60% 40% / 50% 40% 60% 50%;background:var(--sf);border:1.5px solid var(--bdl);display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative;animation:blob 9s ease-in-out infinite alternate;box-shadow:0 0 55px var(--gold-s)}
+    .porb{width:310px;height:310px;border-radius:30% 70% 60% 40% / 50% 40% 60% 50%;background:var(--sf);border:1.5px solid var(--bdl);display:flex;align-items:center;justify-content:center;overflow-y:visible; overflow-x: visible;position:relative;animation:blob 9s ease-in-out infinite alternate;box-shadow:0 0 55px var(--gold-s)}
     @keyframes blob{0%{border-radius:30% 70% 60% 40%/50% 40% 60% 50%}25%{border-radius:60% 40% 30% 70%/60% 30% 70% 40%}50%{border-radius:50% 50% 40% 60%/40% 60% 50% 50%}75%{border-radius:40% 60% 70% 30%/30% 70% 40% 60%}100%{border-radius:30% 70% 60% 40%/50% 40% 60% 50%}}
-    .porb img{width:100%;height:100%;object-fit:cover;filter:saturate(.9)}
+#myimg {
+  position:absolute;
+  bottom:0;
+  left:50%;
+  transform:translateX(-50%);
+  
+  width:120%;
+  height:auto;
+  object-fit:contain;
+  filter:saturate(.9);
+  clip-path:inset(-15% 0 0 0);
+  
+mask-image: linear-gradient(to bottom, black 25%, transparent);
+-webkit-mask-image: linear-gradient(to bottom, black 50%, transparent); /* lets sides overflow freely */
+}
     .oring{position:absolute;border:1px dashed var(--gold-b);border-radius:50%;animation:spin 18s linear infinite}
     .oring.r1{width:380px;height:380px}
     .oring.r2{width:440px;height:440px;animation-direction:reverse;animation-duration:26s;border-style:dotted}
@@ -284,7 +298,16 @@
     .cn{font-family:'Syne',sans-serif;font-size:clamp(1.9rem,3.2vw,2.8rem);font-weight:800;color:var(--gold);line-height:1}
     .cn sup{font-size:1.1rem;color:var(--cyan)}
     .cl{color:var(--td);font-size:.77rem;letter-spacing:1px;text-transform:uppercase;margin-top:.4rem}
+.pimg{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
 
+.pemoji{
+  font-size:2.8rem;
+  transition:transform .4s;
+}
     /* CONTACT */
     #contact{background:var(--bg3)}
     .cgrid{display:grid;grid-template-columns:1fr 1.2fr;gap:4rem;align-items:start}
@@ -413,8 +436,11 @@
       <div class="oring r1"></div>
       <div class="oring r2"></div>
       <div class="porb">
-        <img src="images/sri11.png" alt="Sifatur Rahman Imran" id="myimg"/>
-      </div>
+  <div style="position:absolute;inset:0;overflow:hidden;border-radius:inherit;">
+    <!-- nothing here, this clips the bottom -->
+  </div>
+  <img src="images/sri11.png" alt="Sifatur Rahman Imran" id="myimg"/>
+</div>
       <div class="ftag ft1"><i class="fa-brands fa-react"></i> React Dev</div>
       <div class="ftag ft2"><i class="fa-brands fa-node-js"></i> MERN Stack</div>
       <div class="ftag ft3"><i class="fa-solid fa-graduation-cap"></i> DIU CSE</div>
@@ -457,7 +483,9 @@
     <div class="s3card" id="s3card">
     <div class="s3title">CoverPoint <em>Generator</em></div>
 <div class="s3sub">HTML · CSS · JavaScript · PDF Generator</div>
-      <img class="s3img" src="images/poster.png" alt="Code preview"/>
+      <a href="https://coverpoint.netlify.app" target="_blank">
+  <img class="s3img" src="images/poster.png" alt="Code preview"/>
+</a>
     </div>
   </div>
   </div>
@@ -613,7 +641,7 @@
         <p class="rv" style="color:var(--td);line-height:1.85;font-size:1rem;margin-bottom:1.8rem">I'm always open to new opportunities, interesting projects, and collaborations. Drop me a message and I'll reply shortly.</p>
         <div class="cirow rv"><div class="cico"><i class="fa-solid fa-location-dot"></i></div><div><div class="cilbl">Location</div><div class="cival">Dhaka, Bangladesh</div></div></div>
         <div class="cirow rv"><div class="cico"><i class="fa-solid fa-phone"></i></div><div><div class="cilbl">Phone</div><div class="cival"><a href="tel:+8801898542928">+880 1898 542928</a></div></div></div>
-        <div class="cirow rv"><div class="cico"><i class="fa-solid fa-envelope"></i></div><div><div class="cilbl">Email</div><div class="cival"><a href="/cdn-cgi/l/email-protection#4734352e2a35262973757407202a262e2b6924282a"><span class="__cf_email__" data-cfemail="ef9c9d86829d8e81dbdddcaf88828e8683c18c8082">[email&#160;protected]</span></a></div></div></div>
+        <div class="cirow rv"><div class="cico"><i class="fa-solid fa-envelope"></i></div><div><div class="cilbl">Email</div><a href="mailto:srimran423@gmail.com">[email protected]</a></div></div>
         <div class="socs rv">
           <a href="https://www.linkedin.com/in/s-r-imran/" target="_blank" class="soc s-li" title="LinkedIn"><i class="fa-brands fa-linkedin"></i></a>
           <a href="https://github.com/SR-iMrAN"            target="_blank" class="soc s-gh" title="GitHub"><i class="fa-brands fa-github"></i></a>
@@ -651,6 +679,7 @@
 // ═══ PROJECTS DATA (updated with emoji icons + corrected code links + new project) ═══
 const PJ=[
   {
+    img:'images/redlife.png',
     emoji:'🩸', color:'#ef4444',
     tag:'Full Stack · React · Firebase',
     name:'RedLife — Blood Donation Platform',
@@ -660,6 +689,7 @@ const PJ=[
     code:'https://github.com/SR-iMrAN/RedLife'
   },
   {
+    img:'images/blognest.png',
     emoji:'📝', color:'#3b82f6',
     tag:'Frontend · React',
     name:'Blog Nests — Personal Blog Platform',
@@ -669,6 +699,7 @@ const PJ=[
     code:'https://github.com/SR-iMrAN/Blog-Nests'
   },
   {
+    img:'images/plantcare.png',
     emoji:'🌿', color:'#22c55e',
     tag:'Frontend · React',
     name:'Plant Care Tracker',
@@ -678,6 +709,7 @@ const PJ=[
     code:'https://github.com/SR-iMrAN/Plant-Care-Tracker'
   },
   {
+    img:'images/examvault+.png',
     emoji:'📋', color:'#a855f7',
     tag:'Java · Exam Platform',
     name:'ExamVaultPlus — Exam Management',
@@ -687,6 +719,7 @@ const PJ=[
     code:'https://github.com/SR-iMrAN/Examvaultplus'
   },
   {
+    img:'images/poster.png',
     emoji:'📄', color:'#f59e0b',
     tag:'Tool · Client-Side · PDF',
     name:'CoverPoint — Cover Page Generator',
@@ -696,6 +729,7 @@ const PJ=[
     code:'https://github.com/SR-iMrAN/Cover-page-generator'
   },
   {
+    img:'images/bot.png',
     emoji:'🤖', color:'#0ea5e9',
     tag:'Telegram Bot · Python',
     name:'MrRoutine — DIU Telegram Bot',
@@ -711,7 +745,14 @@ function renderProjects(){
     <div class="pc" style="transition-delay:${i*.1}s">
       <div class="pthumb" style="background:linear-gradient(135deg,${p.color}11,${p.color}22)">
         <div class="ptglow" style="background:radial-gradient(circle at 50% 50%,${p.color}33,transparent 65%)"></div>
-        <span style="font-size:2.8rem;transition:transform .4s;display:inline-block" class="pemoji">${p.emoji}</span>
+        <img class="pimg"
+     src="${p.img || ''}"
+     alt="${p.name}"
+     onerror="this.style.display='none'; this.nextElementSibling.style.display='inline-block'">
+
+<span class="pemoji" style="display:${p.img?'none':'inline-block'}">
+${p.emoji}
+</span>
       </div>
       <div class="pbody">
         <div class="plbl">${p.tag}</div>
